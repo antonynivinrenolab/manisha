@@ -155,25 +155,25 @@ function evaluateChronoTheme(visualBadge) {
     const metricHour = structuralDate.getHours();
     const targetedTarget = document.documentElement;
     let selectedTheme = "theme-night";
-    let executionSignature = "Night Ops Mode";
+    let executionSignature = "Night Moon Mode";
 
     // Mathematical Evaluation of Structural Clock Boundaries
-    if (metricHour >= 5 && metricHour < 8) {
-        selectedTheme = "theme-dawn";
-        executionSignature = "Dawn Phase";
-    } else if (metricHour >= 8 && metricHour < 17) {
-        selectedTheme = "theme-day";
-        executionSignature = "Daylight Production";
-    } else if (metricHour >= 17 && metricHour < 19) {
-        selectedTheme = "theme-dusk";
-        executionSignature = "Dusk Sequence";
+    if (metricHour >= 6 && metricHour < 10) {
+        selectedTheme = "theme-morning";
+        executionSignature = "Morning Sunrise";
+    } else if (metricHour >= 10 && metricHour < 16) {
+        selectedTheme = "theme-afternoon";
+        executionSignature = "Afternoon Sun";
+    } else if (metricHour >= 16 && metricHour < 20) {
+        selectedTheme = "theme-evening";
+        executionSignature = "Evening Sunset";
     } else {
         selectedTheme = "theme-night";
-        executionSignature = "Nightfall Architecture";
+        executionSignature = "Night Moon";
     }
 
     // Atomic Class Mutations
-    targetedTarget.classList.remove("theme-dawn", "theme-day", "theme-dusk", "theme-night");
+    targetedTarget.classList.remove("theme-morning", "theme-afternoon", "theme-evening", "theme-night");
     targetedTarget.classList.add(selectedTheme);
     
     if (visualBadge) {
