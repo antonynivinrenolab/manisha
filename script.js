@@ -1,336 +1,310 @@
-// ==========================================================================
-// CORE SYSTEM TELEMETRY AND ENGINE INITIALIZATION
-// ==========================================================================
+(function () {
+    'use strict';
 
-document.addEventListener("DOMContentLoaded", () => {
-    
-    // Core Component Registry
-    const menuBtn = document.getElementById("menuBtn");
-    const navLinks = document.getElementById("navLinks");
-    const navbar = document.querySelector(".navbar");
-    const scrollTopBtn = document.getElementById("scrollTopBtn");
-    const scrollProgress = document.getElementById("scroll-progress");
-    const themeBadge = document.getElementById("current-theme-badge");
-
-    // Initialize Chrono-Theming Engine
-    evaluateChronoTheme(themeBadge);
-    // Poll the timing signature engine every 60 seconds for absolute theme consistency
-    setInterval(() => evaluateChronoTheme(themeBadge), 60000);
-
-    // Initialize 3D Particle Constellation Engine
-    initializeAmbientPhysicsEngine();
-
-    // ==========================================================================
-    // RESPONSIVE MENU AND NAVIGATION INTERACTION CONTROLLERS
-    // ==========================================================================
-    if (menuBtn && navLinks) {
-        menuBtn.addEventListener("click", () => {
-            menuBtn.classList.toggle("open-menu-state");
-            navLinks.classList.toggle("open-menu-state");
-        });
+    // ============================================
+    // TIME-BASED THEME DETECTION
+    // ============================================
+    function getTimeTheme() {
+        const hour = new Date().getHours();
+        if (hour >= 5 && hour < 12) return 'morning';
+        if (hour >= 12 && hour < 17) return 'afternoon';
+        if (hour >= 17 && hour < 20) return 'evening';
+        return 'night';
     }
 
-    // Capture standard anchor navigation requests to gracefully dismiss responsive menus
-    document.querySelectorAll(".nav-links a").forEach(anchor => {
-        anchor.addEventListener("click", () => {
-            if (menuBtn && navLinks) {
-                menuBtn.classList.remove("open-menu-state");
-                navLinks.classList.remove("open-menu-state");
+    function getTimeGreeting() {
+        const hour = new Date().getHours();
+        if (hour >= 5 && hour < 12) return { greeting: 'Good Morning', icon: '🌅' };
+        if (hour >= 12 && hour < 17) return { greeting: 'Good Afternoon', icon: '☀️' };
+        if (hour >= 17 && hour < 20) return { greeting: 'Good Evening', icon: '🌇' };
+        return { greeting: 'Good Night', icon: '🌙' };
+    }
+
+    // ============================================
+    // SMOOTH SUN / MOON POSITIONING
+    // ============================================
+    function updateCelestialPosition() {
+        const now = new Date();
+        const hour = now.getHours();
+        const minute = now.getMinutes();
+        const totalMinutes = hour * 60 + minute;
+
+        let topPercent, leftPercent;
+        const celestialBody = document.getElementById('celestialBody');
+        const sunRays = document.getElementById('sunRays');
+
+        if (hour >= 5 && hour < 20) {
+            // Sun arc: from 5:00 (left) to 20:00 (right)
+            const startMin = 5 * 60;      // 300
+            const endMin = 20 * 60;       // 1200
+            const progress = (totalMinutes - startMin) / (endMin - startMin); // 0 to 1
+            // Left: 10% to 90%
+            leftPercent = 10 + progress * 80;
+            // Top: high arc (low percent = higher on screen)
+            // Parabolic: starts low (80%), peaks at noon (20%), ends low (80%)
+            const noonProgress = Math.abs(progress - 0.5) * 2; // 0 at noon, 1 at edges
+            topPercent = 20 + noonProgress * 60; // 20% (top) at noon, 80% (bottom) at sunrise/sunset
+        } else {
+            // Moon path (night): 20:00 to 5:00
+            let nightProgress;
+            if (hour >= 20) {
+                // 20:00 - 23:59
+                const startMin = 20 * 60;       // 1200
+                const endMin = 24 * 60;         // 1440
+                nightProgress = (totalMinutes - startMin) / (endMin - startMin); // 0 to 1
+            } else {
+                // 0:00 - 4:59
+                const startMin = 0;
+                const endMin = 5 * 60;          // 300
+                nightProgress = totalMinutes / endMin; // 0 to 1
             }
-        });
+            // Moon moves from left (0%) to right (100%) across the night
+            leftPercent = 10 + nightProgress * 80;
+            // Moon arc: highest around midnight (progress ~0.5)
+            const midProgress = Math.abs(nightProgress - 0.5) * 2;
+            topPercent = 20 + midProgress * 55; // 20% (high) at midnight, 75% at edges
+        }
+
+        // Apply positions
+        if (celestialBody) {
+            celestialBody.style.top = topPercent + '%';
+            celestialBody.style.left = leftPercent + '%';
+        }
+        if (sunRays) {
+            sunRays.style.top = topPercent + '%';
+            sunRays.style.left = leftPercent + '%';
+        }
+    }
+
+    // ============================================
+    // STARS GENERATION (Night Theme)
+    // ============================================
+    let starsGenerated = false;
+    const starsContainer = document.getElementById('starsContainer');
+
+    function generateStars() {
+        if (starsGenerated) return;
+        starsContainer.innerHTML = '';
+        const fragment = document.createDocumentFragment();
+        const starCount = 120;
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star-dot');
+            const size = Math.random() * 3 + 1;
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.setProperty('--twinkle-duration', (Math.random() * 3 + 2) + 's');
+            star.style.setProperty('--twinkle-delay', (Math.random() * 4) + 's');
+            fragment.appendChild(star);
+        }
+        starsContainer.appendChild(fragment);
+        starsGenerated = true;
+    }
+
+    function clearStars() {
+        starsContainer.innerHTML = '';
+        starsGenerated = false;
+    }
+
+    function manageStars(theme) {
+        if (theme === 'night') {
+            generateStars();
+            starsContainer.style.opacity = '1';
+        } else {
+            starsContainer.style.opacity = '0';
+            setTimeout(() => {
+                if (document.body.dataset.currentTheme !== 'night') {
+                    clearStars();
+                }
+            }, 1000);
+        }
+    }
+
+    // ============================================
+    // APPLY THEME (called on load and every hour)
+    // ============================================
+    function applyTheme() {
+        const theme = getTimeTheme();
+        const { greeting, icon } = getTimeGreeting();
+
+        // Remove all theme classes
+        document.body.classList.remove('theme-morning', 'theme-afternoon', 'theme-evening', 'theme-night');
+        document.body.classList.add('theme-' + theme);
+
+        // Update greeting
+        const greetingEl = document.getElementById('timeGreeting');
+        const iconEl = document.getElementById('timeIcon');
+        if (greetingEl) greetingEl.textContent = greeting;
+        if (iconEl) iconEl.textContent = icon;
+
+        // Manage stars
+        manageStars(theme);
+
+        // Store current theme
+        document.body.dataset.currentTheme = theme;
+
+        // Immediately update celestial position (so it's correct when theme changes)
+        updateCelestialPosition();
+    }
+
+    // ============================================
+    // MOBILE NAVIGATION
+    // ============================================
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    const allNavLinks = document.querySelectorAll('.nav-link');
+
+    function closeNav() {
+        navLinks.classList.remove('open');
+        navToggle.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    function openNav() {
+        navLinks.classList.add('open');
+        navToggle.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    navToggle.addEventListener('click', function () {
+        if (navLinks.classList.contains('open')) {
+            closeNav();
+        } else {
+            openNav();
+        }
     });
 
-    // ==========================================================================
-    // SCROLL TELEMETRY ENGINE (ACTIVE LINKS, PROGRESS, FOOTER INTERACTION)
-    // ==========================================================================
-    const trackingSections = document.querySelectorAll("section[id]");
-    const targetNavItems = document.querySelectorAll(".nav-links a");
+    allNavLinks.forEach(function (link) {
+        link.addEventListener('click', closeNav);
+    });
 
-    function executeScrollTelemetryPipeline() {
-        const currentScrollY = window.scrollY;
-
-        // 1. Navbar Glass Density Shifting
-        if (currentScrollY > 50) {
-            navbar.classList.add("scrolled-mode");
-        } else {
-            navbar.classList.remove("scrolled-mode");
+    document.addEventListener('click', function (e) {
+        if (navLinks.classList.contains('open') &&
+            !navLinks.contains(e.target) &&
+            !navToggle.contains(e.target)) {
+            closeNav();
         }
+    });
 
-        // 2. Floating Action Button Viewport Realization
-        if (currentScrollY > 600) {
-            scrollTopBtn.classList.add("reveal-active-btn");
-        } else {
-            scrollTopBtn.classList.remove("reveal-active-btn");
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && navLinks.classList.contains('open')) {
+            closeNav();
         }
+    });
 
-        // 3. Real-time Viewport Progress Computation
-        const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        if (docHeight > 0) {
-            const calculatedProgress = (currentScrollY / docHeight) * 100;
-            scrollProgress.style.width = `${calculatedProgress}%`;
-        }
+    // ============================================
+    // ACTIVE NAV LINK HIGHLIGHT ON SCROLL
+    // ============================================
+    const sections = document.querySelectorAll('.section[id], .hero[id]');
+    const navLinkElements = document.querySelectorAll('.nav-link');
 
-        // 4. Track Element Intersections to Update Navigation Bar Highlights
-        let focusSectionId = "";
-        trackingSections.forEach(section => {
-            const boundaryOffsetTop = section.offsetTop - 160;
-            const contextHeight = section.offsetHeight;
-            if (currentScrollY >= boundaryOffsetTop && currentScrollY < boundaryOffsetTop + contextHeight) {
-                focusSectionId = section.getAttribute("id");
+    function updateActiveNavLink() {
+        let currentSectionId = '';
+        const scrollPos = window.scrollY + 100;
+        sections.forEach(function (section) {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+            if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                currentSectionId = section.getAttribute('id');
             }
         });
-
-        targetNavItems.forEach(item => {
-            item.classList.remove("active-link-indicator");
-            const structuralHref = item.getAttribute("href");
-            if (structuralHref === `#${focusSectionId}`) {
-                item.classList.add("active-link-indicator");
+        navLinkElements.forEach(function (link) {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + currentSectionId) {
+                link.classList.add('active');
             }
         });
     }
 
-    window.addEventListener("scroll", executeScrollTelemetryPipeline, { passive: true });
-    executeScrollTelemetryPipeline(); // Execution pass to capture entry metrics
+    // ============================================
+    // FADE-IN ON SCROLL (Intersection Observer)
+    // ============================================
+    const fadeElements = document.querySelectorAll(
+        '.card, .section-title, .about-text, .timeline-item, .achievement-card, .cert-card, .contact-item, .highlight-item, .education-card'
+    );
+    fadeElements.forEach(function (el) { el.classList.add('fade-in'); });
 
-    if (scrollTopBtn) {
-        scrollTopBtn.addEventListener("click", () => {
-            window.scrollTo({ top: 0, behavior: "smooth" });
-        });
-    }
-
-    // ==========================================================================
-    // SYNCHRONIZED INTERSECTION OBSERVER FOR TRANSITION REVEALS
-    // ==========================================================================
-    const revealElements = document.querySelectorAll(".reveal");
-    const sequentialCardClusters = document.querySelectorAll(".skill-matrix-card, .achievement-interactive-card, .metric-glass-tile");
-
-    const layoutRevealObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
+    const observerOptions = { root: null, rootMargin: '0px 0px -40px 0px', threshold: 0.1 };
+    const observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
             if (entry.isIntersecting) {
-                entry.target.classList.add("synchronized-reveal-active");
+                entry.target.classList.add('visible');
             }
         });
-    }, { threshold: 0.1, rootMargin: "0px 0px -40px 0px" });
+    }, observerOptions);
+    fadeElements.forEach(function (el) { observer.observe(el); });
 
-    revealElements.forEach(element => layoutRevealObserver.observe(element));
-
-    // Stagger animation delays automatically across modular grid cards
-    sequentialCardClusters.forEach((card, cursorIndex) => {
-        card.style.transition = "all 0.6s cubic-bezier(0.16, 1, 0.3, 1)";
-        card.style.transitionDelay = `${(cursorIndex % 4) * 75}ms`;
-    });
-
-    // ==========================================================================
-    // RECRUITER ACQUISITION CLIPBOARD SUB-SYSTEM
-    // ==========================================================================
-    const copyTriggers = document.querySelectorAll("[data-copy-target]");
-    copyTriggers.forEach(trigger => {
-        trigger.addEventListener("click", () => {
-            const extractionValue = trigger.getAttribute("data-copy-target");
-            const visualLabel = trigger.querySelector(".copy-action-trigger");
-            const priorLabelString = visualLabel.textContent;
-
-            navigator.clipboard.writeText(extractionValue).then(() => {
-                visualLabel.textContent = "Copied!";
-                visualLabel.style.background = "#00ff66";
-                visualLabel.style.color = "#000000";
-
-                setTimeout(() => {
-                    visualLabel.textContent = priorLabelString;
-                    visualLabel.style.background = "";
-                    visualLabel.style.color = "";
-                }, 2000);
-            }).catch(err => {
-                console.error("Clipboard ingestion pipeline failure: ", err);
-            });
+    // ============================================
+    // BACK TO TOP & LOGO
+    // ============================================
+    const backToTop = document.querySelector('.back-to-top');
+    if (backToTop) {
+        backToTop.addEventListener('click', function (e) {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            closeNav();
         });
-    });
-});
-
-// ==========================================================================
-// CHRONO-THEME EVALUATION PIPELINE
-// ==========================================================================
-function evaluateChronoTheme(visualBadge) {
-    const structuralDate = new Date();
-    const metricHour = structuralDate.getHours();
-    const targetedTarget = document.documentElement;
-    let selectedTheme = "theme-night";
-    let executionSignature = "Night Moon Mode";
-
-    // Mathematical Evaluation of Structural Clock Boundaries
-    if (metricHour >= 6 && metricHour < 10) {
-        selectedTheme = "theme-morning";
-        executionSignature = "Morning Sunrise";
-    } else if (metricHour >= 10 && metricHour < 16) {
-        selectedTheme = "theme-afternoon";
-        executionSignature = "Afternoon Sun";
-    } else if (metricHour >= 16 && metricHour < 20) {
-        selectedTheme = "theme-evening";
-        executionSignature = "Evening Sunset";
-    } else {
-        selectedTheme = "theme-night";
-        executionSignature = "Night Moon";
     }
 
-    // Atomic Class Mutations
-    targetedTarget.classList.remove("theme-morning", "theme-afternoon", "theme-evening", "theme-night");
-    targetedTarget.classList.add(selectedTheme);
-    
-    if (visualBadge) {
-        visualBadge.textContent = executionSignature;
-    }
-}
-
-// ==========================================================================
-// INTERACTIVE 3D PARTICLES CONSTELLATION FLUID PHYSICS ENGINE
-// ==========================================================================
-function initializeAmbientPhysicsEngine() {
-    const hostCanvas = document.getElementById("interactive-ambient-canvas");
-    if (!hostCanvas) return;
-    
-    const contextRender = hostCanvas.getContext("2d");
-    let dynamicParticleArray = [];
-    
-    // Track pointer location metrics
-    const pointerTelemetry = { x: null, y: null, targetProximityRadius: 160 };
-
-    window.addEventListener("mousemove", (event) => {
-        pointerTelemetry.x = event.clientX;
-        pointerTelemetry.y = event.clientY;
-    });
-
-    window.addEventListener("mouseleave", () => {
-        pointerTelemetry.x = null;
-        pointerTelemetry.y = null;
-    });
-
-    function normalizeCanvasDimensions() {
-        hostCanvas.width = window.innerWidth;
-        hostCanvas.height = window.innerHeight;
-    }
-    normalizeCanvasDimensions();
-    window.addEventListener("resize", normalizeCanvasDimensions);
-
-    // Particle Object Core Structure
-    class ArchitecturalParticle {
-        constructor(widthBoundary, heightBoundary) {
-            this.maxW = widthBoundary;
-            this.maxH = heightBoundary;
-            this.instantiateCoordinates();
-            this.particleMassRadius = Math.random() * 1.5 + 0.5;
-            this.driftVelocityX = (Math.random() - 0.5) * 0.4;
-            this.driftVelocityY = (Math.random() - 0.5) * 0.4;
-        }
-
-        instantiateCoordinates() {
-            this.coordinateX = Math.random() * this.maxW;
-            this.coordinateY = Math.random() * this.maxH;
-        }
-
-        recomputePosition(w, h) {
-            this.maxW = w;
-            this.maxH = h;
-            
-            // Apply frame tracking delta computations
-            this.coordinateX += this.driftVelocityX;
-            this.coordinateY += this.driftVelocityY;
-
-            // Boundary bounce computations
-            if (this.coordinateX < 0 || this.coordinateX > this.maxW) this.driftVelocityX *= -1;
-            if (this.coordinateY < 0 || this.coordinateY > this.maxH) this.driftVelocityY *= -1;
-
-            // Handle track pointer interactions
-            if (pointerTelemetry.x !== null && pointerTelemetry.y !== null) {
-                const deltaDistanceX = this.coordinateX - pointerTelemetry.x;
-                const deltaDistanceY = this.coordinateY - pointerTelemetry.y;
-                const pythagoreanDistance = Math.sqrt(deltaDistanceX * deltaDistanceX + deltaDistanceY * deltaDistanceY);
-
-                if (pythagoreanDistance < pointerTelemetry.targetProximityRadius) {
-                    const repulsionScalarForce = (pointerTelemetry.targetProximityRadius - pythagoreanDistance) / pointerTelemetry.targetProximityRadius;
-                    this.coordinateX += (deltaDistanceX / pythagoreanDistance) * repulsionScalarForce * 1.5;
-                    this.coordinateY += (deltaDistanceY / pythagoreanDistance) * repulsionScalarForce * 1.5;
-                }
-            }
-        }
-
-        renderGraphicsPass() {
-            const rootThemeStyles = getComputedStyle(document.documentElement);
-            const coreAccentHex = rootThemeStyles.getPropertyValue('--accent-primary').trim() || "#00f5ff";
-            
-            contextRender.beginPath();
-            contextRender.arc(this.coordinateX, this.coordinateY, this.particleMassRadius, 0, Math.PI * 2);
-            contextRender.fillStyle = coreAccentHex;
-            contextRender.fill();
-        }
-    }
-
-    function constructEcosystemPool() {
-        dynamicParticleArray = [];
-        // Math density mapping constraint based on horizontal resolution profiles
-        const calculatedNodeDensity = Math.floor((window.innerWidth * window.innerHeight) / 9000);
-        const processingCap = Math.min(calculatedNodeDensity, 140); 
-
-        for (let index = 0; index < processingCap; index++) {
-            dynamicParticleArray.push(new ArchitecturalParticle(hostCanvas.width, hostCanvas.height));
-        }
-    }
-    constructEcosystemPool();
-    window.addEventListener("resize", constructEcosystemPool);
-
-    function evaluateStructuralConnections() {
-        const rootThemeStyles = getComputedStyle(document.documentElement);
-        const secondaryAccentHex = rootThemeStyles.getPropertyValue('--accent-secondary').trim() || "#9d4edd";
-        
-        // Quad-tree proxy parsing array loops to draw interactive geometric meshes
-        for (let parentIndex = 0; parentIndex < dynamicParticleArray.length; parentIndex++) {
-            for (let comparisonIndex = parentIndex + 1; comparisonIndex < dynamicParticleArray.length; comparisonIndex++) {
-                const nodeA = dynamicParticleArray[parentIndex];
-                const nodeB = dynamicParticleArray[comparisonIndex];
-
-                const operationalDeltaX = nodeA.coordinateX - nodeB.coordinateX;
-                const operationalDeltaY = nodeA.coordinateY - nodeB.coordinateY;
-                const distanceVector = Math.sqrt(operationalDeltaX * operationalDeltaX + operationalDeltaY * operationalDeltaY);
-
-                if (distanceVector < 115) {
-                    const mappedAlphaRatio = (115 - distanceVector) / 115 * 0.12;
-                    contextRender.beginPath();
-                    contextRender.moveTo(nodeA.coordinateX, nodeA.coordinateY);
-                    contextRender.lineTo(nodeB.coordinateX, nodeB.coordinateY);
-                    
-                    // Convert color tracking profile natively to dynamic canvas rendering states
-                    contextRender.strokeStyle = hexToRgbaConversionString(secondaryAccentHex, mappedAlphaRatio);
-                    contextRender.lineWidth = 0.75;
-                    contextRender.stroke();
-                }
-            }
-        }
-    }
-
-    // High performance frame rendering loop
-    function continuousRenderLoop() {
-        contextRender.clearRect(0, 0, hostCanvas.width, hostCanvas.height);
-
-        dynamicParticleArray.forEach(particle => {
-            particle.recomputePosition(hostCanvas.width, hostCanvas.height);
-            particle.renderGraphicsPass();
+    const navLogo = document.querySelector('.nav-logo');
+    if (navLogo) {
+        navLogo.addEventListener('click', function (e) {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            closeNav();
         });
-
-        evaluateStructuralConnections();
-        requestAnimationFrame(continuousRenderLoop);
     }
-    requestAnimationFrame(continuousRenderLoop);
-}
 
-// Convert runtime variables safely into active alpha-channel canvas paths
-function hexToRgbaConversionString(hexCode, alphaValue) {
-    let sanitizedHex = hexCode.replace('#', '');
-    if (sanitizedHex.length === 3) {
-        sanitizedHex = sanitizedHex.split('').map(char => char + char).join('');
+    // ============================================
+    // SET CURRENT YEAR
+    // ============================================
+    const yearEl = document.getElementById('currentYear');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+    // ============================================
+    // INITIALIZATION & CONTINUOUS UPDATES
+    // ============================================
+    function init() {
+        applyTheme();
+        updateActiveNavLink();
+        updateCelestialPosition();
+
+        // Update celestial position every minute
+        setInterval(updateCelestialPosition, 60000);
+
+        // Re‑check theme every 2 minutes (to catch hour changes)
+        setInterval(function () {
+            const currentTheme = document.body.dataset.currentTheme;
+            const newTheme = getTimeTheme();
+            if (currentTheme !== newTheme) {
+                applyTheme();
+            }
+        }, 120000);
+
+        // Also check at the start of each hour
+        function scheduleHourCheck() {
+            const now = new Date();
+            const msToNextHour = (60 - now.getMinutes()) * 60 * 1000 - now.getSeconds() * 1000 - now.getMilliseconds();
+            setTimeout(function () {
+                applyTheme();
+                scheduleHourCheck();
+            }, msToNextHour + 1000);
+        }
+        scheduleHourCheck();
     }
-    const internalBigInt = parseInt(sanitizedHex, 16);
-    const channelR = (internalBigInt >> 16) & 255;
-    const channelG = (internalBigInt >> 8) & 255;
-    const channelB = internalBigInt & 255;
 
-    return `rgba(${channelR}, ${channelG}, ${channelB}, ${alphaValue})`;
-}
+    window.addEventListener('scroll', updateActiveNavLink, { passive: true });
+
+    let resizeTimeout;
+    window.addEventListener('resize', function () {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(updateActiveNavLink, 200);
+    });
+
+    init();
+
+    console.log('🌅 Portfolio ready! Continuous sun/moon movement active.');
+    console.log('📍 Manisha E — Java Full Stack Developer | Chennai, India');
+})();
