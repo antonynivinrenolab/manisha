@@ -2,8 +2,8 @@
    PRODUCTION CORE ENGINE PROPERTIES (CHRONO-THEMES & CSS VARIABLES)
    ========================================================================== */
 :root {
-    --font-primary: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-display: 'Syne', sans-serif;
+    --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-display: 'Poppins', sans-serif;
     
     /* System Global Constraints */
     --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
@@ -26,57 +26,60 @@
     --ambient-glow-gradient: linear-gradient(135deg, rgba(0, 245, 255, 0.05), rgba(157, 78, 221, 0.05));
 }
 
-/* Chrono-Theme Palette Rulesets */
-.theme-dawn {
-    --bg-core: #0f0c1b;
-    --bg-surface: rgba(24, 18, 36, 0.65);
-    --bg-tile: rgba(38, 28, 56, 0.45);
+/* Morning Sunrise Theme (6am - 10am) */
+.theme-morning {
+    --bg-core: #1a0f1f;
+    --bg-surface: rgba(45, 25, 50, 0.65);
+    --bg-tile: rgba(65, 35, 70, 0.45);
     --accent-primary: #ff9e00;
-    --accent-secondary: #ff007f;
+    --accent-secondary: #ff6b9d;
     --text-main: #fff5ea;
-    --text-muted: #a397b0;
-    --border-glass: rgba(255, 158, 0, 0.1);
-    --shadow-glow: 0 0 35px rgba(255, 158, 0, 0.15);
-    --ambient-glow-gradient: linear-gradient(135deg, rgba(255, 158, 0, 0.08), rgba(255, 0, 127, 0.08));
+    --text-muted: #b8a5b0;
+    --border-glass: rgba(255, 158, 0, 0.12);
+    --shadow-glow: 0 0 35px rgba(255, 158, 0, 0.2);
+    --ambient-glow-gradient: linear-gradient(135deg, rgba(255, 158, 0, 0.08), rgba(255, 107, 157, 0.08));
 }
 
-.theme-day {
-    --bg-core: #060d1a;
-    --bg-surface: rgba(11, 22, 44, 0.65);
-    --bg-tile: rgba(18, 38, 75, 0.4);
-    --accent-primary: #00e5ff;
-    --accent-secondary: #2979ff;
+/* Afternoon Sun Theme (10am - 4pm) */
+.theme-afternoon {
+    --bg-core: #0a1929;
+    --bg-surface: rgba(15, 35, 60, 0.7);
+    --bg-tile: rgba(25, 55, 95, 0.5);
+    --accent-primary: #00d4ff;
+    --accent-secondary: #4fc3f7;
     --text-main: #ffffff;
-    --text-muted: #90a4ae;
-    --border-glass: rgba(0, 229, 255, 0.08);
-    --shadow-glow: 0 0 30px rgba(0, 229, 255, 0.15);
-    --ambient-glow-gradient: linear-gradient(135deg, rgba(0, 229, 255, 0.05), rgba(41, 121, 255, 0.05));
+    --text-muted: #90caf9;
+    --border-glass: rgba(0, 212, 255, 0.1);
+    --shadow-glow: 0 0 35px rgba(0, 212, 255, 0.2);
+    --ambient-glow-gradient: linear-gradient(135deg, rgba(0, 212, 255, 0.06), rgba(79, 195, 247, 0.06));
 }
 
-.theme-dusk {
-    --bg-core: #12041d;
-    --bg-surface: rgba(29, 10, 46, 0.7);
-    --bg-tile: rgba(48, 15, 77, 0.45);
-    --accent-primary: #ff007f;
-    --accent-secondary: #7000ff;
+/* Evening Sunset Theme (4pm - 8pm) */
+.theme-evening {
+    --bg-core: #1a0a2e;
+    --bg-surface: rgba(40, 15, 60, 0.75);
+    --bg-tile: rgba(60, 25, 90, 0.5);
+    --accent-primary: #ff006e;
+    --accent-secondary: #8338ec;
     --text-main: #ffe3f1;
-    --text-muted: #a692a8;
-    --border-glass: rgba(255, 0, 127, 0.12);
-    --shadow-glow: 0 0 35px rgba(255, 0, 127, 0.2);
-    --ambient-glow-gradient: linear-gradient(135deg, rgba(255, 0, 127, 0.08), rgba(112, 0, 255, 0.08));
+    --text-muted: #b8a5c0;
+    --border-glass: rgba(255, 0, 110, 0.15);
+    --shadow-glow: 0 0 40px rgba(255, 0, 110, 0.25);
+    --ambient-glow-gradient: linear-gradient(135deg, rgba(255, 0, 110, 0.1), rgba(131, 56, 236, 0.1));
 }
 
+/* Night Moon Theme (8pm - 6am) */
 .theme-night {
-    --bg-core: #030305;
-    --bg-surface: rgba(8, 8, 14, 0.8);
-    --bg-tile: rgba(14, 14, 26, 0.6);
-    --accent-primary: #00f5ff;
-    --accent-secondary: #651fff;
-    --text-main: #e2e2ee;
-    --text-muted: #747488;
-    --border-glass: rgba(255, 255, 255, 0.04);
-    --shadow-glow: 0 0 40px rgba(0, 245, 255, 0.1);
-    --ambient-glow-gradient: linear-gradient(135deg, rgba(0, 245, 255, 0.03), rgba(101, 31, 255, 0.03));
+    --bg-core: #0a0a1a;
+    --bg-surface: rgba(12, 12, 30, 0.8);
+    --bg-tile: rgba(20, 20, 45, 0.6);
+    --accent-primary: #a0c4ff;
+    --accent-secondary: #bdb2ff;
+    --text-main: #e0e0f0;
+    --text-muted: #7a7a9e;
+    --border-glass: rgba(160, 196, 255, 0.08);
+    --shadow-glow: 0 0 40px rgba(160, 196, 255, 0.15);
+    --ambient-glow-gradient: linear-gradient(135deg, rgba(160, 196, 255, 0.04), rgba(189, 178, 255, 0.04));
 }
 
 /* ==========================================================================
@@ -103,6 +106,7 @@ body {
     line-height: 1.6;
     letter-spacing: -0.01em;
     transition: background-color 1s ease, color 0.5s ease;
+    font-weight: 400;
 }
 
 /* Performant Ambient Canvas Configuration */
@@ -113,7 +117,7 @@ body {
     width: 100vw;
     height: 100vh;
     z-index: -1;
-    pointer-events: auto;
+    pointer-events: none;
 }
 
 /* Scroll Progress Layout */
@@ -161,7 +165,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 6%;
+    padding: 0 5%;
     background: rgba(var(--bg-core), 0.75);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
@@ -177,28 +181,31 @@ body {
 }
 
 .logo {
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-size: 1.5rem;
-    color: var(--text-main);
     display: flex;
     flex-direction: column;
+    gap: 2px;
+}
+
+.logo-text {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--text-main);
+    letter-spacing: -0.02em;
 }
 
 .logo-dot {
     color: var(--accent-primary);
-    display: inline;
 }
 
 .theme-status-indicator {
     font-family: var(--font-primary);
     font-size: 0.65rem;
-    font-weight: 400;
-    letter-spacing: 0.1em;
+    font-weight: 500;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--accent-primary);
-    opacity: 0.8;
-    margin-top: -2px;
+    opacity: 0.85;
 }
 
 .nav-links {
@@ -273,6 +280,7 @@ body {
 
 .hero-container {
     max-width: 1000px;
+    width: 100%;
 }
 
 .availability-badge-container {
@@ -316,6 +324,7 @@ body {
     background: linear-gradient(135deg, var(--accent-primary) 30%, var(--accent-secondary) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .hero-subtitle {
@@ -339,11 +348,13 @@ body {
     display: flex;
     justify-content: center;
     gap: 20px;
+    flex-wrap: wrap;
 }
 
 .btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     text-decoration: none;
     font-size: 1rem;
     font-weight: 600;
@@ -428,6 +439,7 @@ body {
 
 .section-header-block {
     margin-bottom: 60px;
+    text-align: center;
 }
 
 .section-pretitle {
@@ -787,7 +799,7 @@ body {
     font-weight: 600;
     cursor: pointer;
     transition: var(--transition-snappy);
-    pointer-events: none; /* Inherits action via row parent layout click triggers */
+    pointer-events: none;
 }
 
 .comms-item-row:hover .copy-action-trigger {
@@ -981,7 +993,6 @@ body {
     
     .btn {
         width: 100%;
-        justify-content: center;
     }
 
     .timeline-node-block, .glass-card, .recruiter-action-panel {
