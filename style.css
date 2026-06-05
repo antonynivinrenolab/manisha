@@ -20,13 +20,15 @@
     --hero-gradient-top: #4a6fa5;
     --hero-gradient-mid: #c78b5c;
     --hero-gradient-bottom: #f7d4a3;
-    --celestial-color: #f9a03f;
+    --celestial-gradient: radial-gradient(circle at 35% 35%, #fff5a8, #f9a03f 50%, #d9651a);
+    --celestial-outer-glow: rgba(255, 170, 60, 0.2);
     --celestial-glow-color: rgba(255, 170, 60, 0.5);
-    --celestial-size: 120px;
+    --celestial-size: 130px;
     --celestial-top: 58%;
     --celestial-left: 18%;
-    --sun-rays-opacity: 0.6;
-    --star-opacity: 0;
+    --sun-rays-opacity: 0.8;
+    --crater-opacity: 0;
+    --crater-color: transparent;
     --tag-bg: #fef0e0;
     --tag-text: #b8602a;
     --tag-border: #f5d5b0;
@@ -64,13 +66,15 @@ body.theme-afternoon {
     --hero-gradient-top: #3a7bd5;
     --hero-gradient-mid: #5b9ce6;
     --hero-gradient-bottom: #b8daf8;
-    --celestial-color: #ffcc33;
-    --celestial-glow-color: rgba(255, 210, 50, 0.6);
-    --celestial-size: 130px;
+    --celestial-gradient: radial-gradient(circle at 50% 50%, #ffffff, #ffe484 30%, #f5a623 70%);
+    --celestial-outer-glow: rgba(255, 210, 50, 0.25);
+    --celestial-glow-color: rgba(255, 210, 50, 0.7);
+    --celestial-size: 140px;
     --celestial-top: 12%;
     --celestial-left: 48%;
-    --sun-rays-opacity: 0.8;
-    --star-opacity: 0;
+    --sun-rays-opacity: 1;
+    --crater-opacity: 0;
+    --crater-color: transparent;
     --tag-bg: #fffbe6;
     --tag-text: #8b6914;
     --tag-border: #f0d870;
@@ -108,13 +112,15 @@ body.theme-evening {
     --hero-gradient-top: #2d1b4e;
     --hero-gradient-mid: #8b3a5e;
     --hero-gradient-bottom: #e8956a;
-    --celestial-color: #f06040;
-    --celestial-glow-color: rgba(255, 100, 50, 0.55);
+    --celestial-gradient: radial-gradient(circle at 40% 40%, #ffb88c, #e8553d 60%, #b0302a);
+    --celestial-outer-glow: rgba(255, 100, 50, 0.25);
+    --celestial-glow-color: rgba(255, 100, 50, 0.6);
     --celestial-size: 125px;
     --celestial-top: 52%;
     --celestial-left: 78%;
-    --sun-rays-opacity: 0.5;
-    --star-opacity: 0.15;
+    --sun-rays-opacity: 0.6;
+    --crater-opacity: 0;
+    --crater-color: transparent;
     --tag-bg: #fef0f0;
     --tag-text: #b84050;
     --tag-border: #f0c0c8;
@@ -152,13 +158,15 @@ body.theme-night {
     --hero-gradient-top: #020810;
     --hero-gradient-mid: #0d1a30;
     --hero-gradient-bottom: #1a2a45;
-    --celestial-color: #e8e8d5;
-    --celestial-glow-color: rgba(220, 220, 240, 0.45);
+    --celestial-gradient: radial-gradient(circle at 40% 40%, #f5f5f0, #d0d0c8 70%, #a0a098);
+    --celestial-outer-glow: rgba(200, 200, 220, 0.15);
+    --celestial-glow-color: rgba(220, 220, 240, 0.35);
     --celestial-size: 100px;
     --celestial-top: 18%;
     --celestial-left: 72%;
     --sun-rays-opacity: 0;
-    --star-opacity: 1;
+    --crater-opacity: 0.35;
+    --crater-color: rgba(180, 180, 170, 0.8);
     --tag-bg: #1e2a3a;
     --tag-text: #9cc8f0;
     --tag-border: #2a3a50;
@@ -211,7 +219,7 @@ body {
     height: 100%;
     pointer-events: none;
     z-index: 0;
-    opacity: var(--star-opacity);
+    opacity: var(--star-opacity, 0);
     transition: opacity 1s ease;
 }
 
@@ -377,32 +385,43 @@ body {
     transition: background 1s ease;
 }
 
+/* Celestial body with realistic gradient */
 .celestial-body {
     position: absolute;
     width: var(--celestial-size);
     height: var(--celestial-size);
     border-radius: 50%;
-    background: var(--celestial-color);
+    background: var(--celestial-gradient);
     top: var(--celestial-top);
     left: var(--celestial-left);
     transform: translate(-50%, -50%);
-    box-shadow: 0 0 60px var(--celestial-glow-color), 0 0 120px var(--celestial-glow-color),
-        0 0 200px var(--celestial-glow-color);
+    box-shadow: 0 0 0 12px var(--celestial-outer-glow),
+                0 0 40px var(--celestial-glow-color);
     transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
     animation: celestialPulse 4s ease-in-out infinite;
     z-index: 0;
+    overflow: hidden;
 }
 
-.celestial-glow {
+/* Moon craters */
+.celestial-body::after {
+    content: '';
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 140%;
-    height: 140%;
+    top: 10%;
+    left: 15%;
+    width: 25%;
+    height: 25%;
+    background: var(--crater-color);
     border-radius: 50%;
-    background: radial-gradient(circle, var(--celestial-glow-color) 0%, transparent 70%);
-    animation: glowBreathe 3s ease-in-out infinite;
+    box-shadow: 
+        40px 25px 0 8px var(--crater-color),
+        70px 5px 0 4px var(--crater-color),
+        20px 60px 0 12px var(--crater-color),
+        -10px 80px 0 6px var(--crater-color),
+        80px 50px 0 5px var(--crater-color),
+        10px 20px 0 3px var(--crater-color);
+    opacity: var(--crater-opacity);
+    transition: opacity 0.8s;
 }
 
 @keyframes celestialPulse {
@@ -415,72 +434,31 @@ body {
     }
 }
 
-@keyframes glowBreathe {
-    0%,
-    100% {
-        opacity: 0.7;
-        transform: translate(-50%, -50%) scale(1);
-    }
-    50% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1.15);
-    }
-}
-
-/* Sun rays */
+/* Soft radial glow instead of sharp rays */
 .sun-rays {
     position: absolute;
     top: var(--celestial-top);
     left: var(--celestial-left);
     transform: translate(-50%, -50%);
-    width: calc(var(--celestial-size) * 2.5);
-    height: calc(var(--celestial-size) * 2.5);
+    width: calc(var(--celestial-size) * 3);
+    height: calc(var(--celestial-size) * 3);
     opacity: var(--sun-rays-opacity);
     transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
     pointer-events: none;
     z-index: -1;
-    background: conic-gradient(
-        from 0deg,
-        transparent 0deg,
-        var(--celestial-glow-color) 10deg,
-        transparent 20deg,
-        transparent 40deg,
-        var(--celestial-glow-color) 50deg,
-        transparent 60deg,
-        transparent 80deg,
-        var(--celestial-glow-color) 90deg,
-        transparent 100deg,
-        transparent 120deg,
-        var(--celestial-glow-color) 130deg,
-        transparent 140deg,
-        transparent 160deg,
-        var(--celestial-glow-color) 170deg,
-        transparent 180deg,
-        transparent 200deg,
-        var(--celestial-glow-color) 210deg,
-        transparent 220deg,
-        transparent 240deg,
-        var(--celestial-glow-color) 250deg,
-        transparent 260deg,
-        transparent 280deg,
-        var(--celestial-glow-color) 290deg,
-        transparent 300deg,
-        transparent 320deg,
-        var(--celestial-glow-color) 330deg,
-        transparent 340deg,
-        transparent 360deg
-    );
     border-radius: 50%;
-    animation: raysRotate 30s linear infinite;
+    background: radial-gradient(
+        circle,
+        var(--celestial-glow-color) 0%,
+        transparent 70%
+    );
+    filter: blur(15px);
+    animation: raysPulse 4s ease-in-out infinite;
 }
 
-@keyframes raysRotate {
-    from {
-        transform: translate(-50%, -50%) rotate(0deg);
-    }
-    to {
-        transform: translate(-50%, -50%) rotate(360deg);
-    }
+@keyframes raysPulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+    50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.9; }
 }
 
 /* Hero Content */
@@ -617,7 +595,6 @@ body {
     margin-right: 4px;
 }
 
-/* Scroll indicator */
 .scroll-indicator {
     position: absolute;
     bottom: 24px;
