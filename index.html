@@ -4,327 +4,240 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manisha E | Java Full Stack Developer</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Animation & Interactive Styles -->
-    <style>
-        * {
-            box-sizing: border-box;
-            scroll-behavior: smooth;
-        }
-        
-        /* Keyframe Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-
-        @keyframes pulseGlow {
-            0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4); }
-            70% { box-shadow: 0 0 0 15px rgba(37, 99, 235, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
-        }
-
-        /* Hover Effects */
-        .nav-link {
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -4px;
-            left: 0;
-            background-color: #2563eb;
-            transition: width 0.3s ease;
-        }
-        .nav-link:hover::after {
-            width: 100%;
-        }
-        .nav-link:hover {
-            color: #2563eb !important;
-        }
-
-        .stat-card {
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .stat-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
-        }
-
-        .skill-group {
-            transition: all 0.3s ease;
-        }
-        .skill-group:hover {
-            border-color: #2563eb !important;
-            transform: scale(1.02);
-        }
-
-        .skill-badge {
-            transition: all 0.2s ease;
-        }
-        .skill-badge:hover {
-            background-color: #2563eb !important;
-            color: #ffffff !important;
-            transform: translateY(-2px);
-        }
-
-        .contact-btn {
-            transition: all 0.3s ease;
-        }
-        .contact-btn:hover {
-            background-color: rgba(255, 255, 255, 0.15) !important;
-            border-color: #60a5fa !important;
-            transform: translateY(-2px);
-        }
-
-        .exp-card {
-            transition: all 0.3s ease;
-        }
-        .exp-card:hover {
-            box-shadow: 0 15px 30px -10px rgba(0,0,0,0.08) !important;
-            border-left: 5px solid #2563eb !important;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body style="margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; color: #1e293b; line-height: 1.7;">
+<body>
 
-    <!-- NAVIGATION BAR -->
-    <nav style="position: sticky; top: 0; background-color: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid #e2e8f0; z-index: 1000; padding: 1.2rem 10%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 2px rgba(0,0,0,0.02);">
-        <div style="font-weight: 800; font-size: 1.4rem; color: #0f172a; letter-spacing: -0.05em;">
-            MANISHA<span style="color: #2563eb;">.</span>E
-        </div>
-        <div style="display: flex; gap: 2.5rem;">
-            <a href="#about" class="nav-link" style="text-decoration: none; color: #64748b; font-weight: 600; font-size: 0.95rem;">About</a>
-            <a href="#skills" class="nav-link" style="text-decoration: none; color: #64748b; font-weight: 600; font-size: 0.95rem;">Skills</a>
-            <a href="#experience" class="nav-link" style="text-decoration: none; color: #64748b; font-weight: 600; font-size: 0.95rem;">Experience</a>
-            <a href="#education" class="nav-link" style="text-decoration: none; color: #64748b; font-weight: 600; font-size: 0.95rem;">Education</a>
-        </div>
-    </nav>
+    <!-- Navigation -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">Manisha E</div>
 
-    <!-- HERO PROFILE SECTION -->
-    <header id="about" style="background: radial-gradient(circle at top right, #1e293b 0%, #0f172a 100%); color: #ffffff; padding: 8rem 10% 9rem 10%; text-align: center; position: relative; overflow: hidden;">
-        <!-- Geometric Accent Circles -->
-        <div style="position: absolute; top: -10%; right: -5%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(37,99,235,0.15) 0%, transparent 70%); pointer-events: none;"></div>
-        <div style="position: absolute; bottom: -20%; left: -5%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(16,185,129,0.08) 0%, transparent 70%); pointer-events: none;"></div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
 
-        <div style="max-width: 850px; margin: 0 auto; animation: fadeInUp 0.8s ease-out;">
-            <span style="animation: pulseGlow 2s infinite; background: rgba(37, 99, 235, 0.15); color: #60a5fa; padding: 0.6rem 1.2rem; border-radius: 9999px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; border: 1px solid rgba(37, 99, 235, 0.3); display: inline-block; margin-bottom: 2rem;">
-                🚀 Open to: Remote / Hybrid / Relocate
-            </span>
-            
-            <h1 style="font-size: 4rem; font-weight: 800; margin: 0 0 1rem 0; letter-spacing: -0.05em; line-height: 1.1; background: linear-gradient(to right, #ffffff, #cbd5e1); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-                Manisha E
-            </h1>
-            
-            <div style="font-size: 1.6rem; color: #38bdf8; font-weight: 600; margin-bottom: 2rem; letter-spacing: -0.02em;">
-                Java Full Stack Developer
+            <div class="hamburger" id="hamburger">
+                ☰
             </div>
-            
-            <p style="font-size: 1.15rem; color: #94a3b8; max-width: 700px; margin: 0 auto 3.5rem auto; font-weight: 400; line-height: 1.8;">
-                Java Full Stack Developer with 3+ years of enterprise experience specializing in Angular 14+, Spring Boot, Spring Batch, and AWS ecosystems[cite: 1]. Proven track record of optimizing database layers and deploying high-availability microservices[cite: 1].
-            </p>
-            
-            <!-- Beautiful Action/Contact Buttons -->
-            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.2rem;">
-                <a href="mailto:manisharaj2865@gmail.com" class="contact-btn" style="background-color: #2563eb; color: #ffffff; padding: 0.9rem 1.8rem; border-radius: 10px; text-decoration: none; font-size: 0.95rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.6rem; box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.4);">
-                    📧 Email Me
-                </a>
-                <a href="tel:+919790372865" class="contact-btn" style="background-color: rgba(255,255,255,0.03); color: #f1f5f9; padding: 0.9rem 1.8rem; border-radius: 10px; text-decoration: none; font-size: 0.95rem; font-weight: 600; border: 1px solid rgba(255,255,255,0.15); display: inline-flex; align-items: center; gap: 0.6rem;">
-                    📞 Call +91 97903 72865
-                </a>
-                <span class="contact-btn" style="background-color: rgba(255,255,255,0.03); color: #cbd5e1; padding: 0.9rem 1.8rem; border-radius: 10px; font-size: 0.95rem; font-weight: 600; border: 1px solid rgba(255,255,255,0.1); display: inline-flex; align-items: center; gap: 0.6rem;">
-                    📍 Chennai, India
-                </span>
-            </div>
-        </div>
+        </nav>
     </header>
 
-    <!-- CONTENT PORTAL LAYER -->
-    <main style="max-width: 1200px; margin: 0 auto; padding: 0 5% 5rem 5%;">
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <p id="greeting" class="greeting"></p>
 
-        <!-- FLOATING CORE METRICS SECTION -->
-        <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: -4.5rem; margin-bottom: 5rem; animation: fadeInUp 1s ease-out;">
-            <div class="stat-card" style="background: #ffffff; padding: 2.2rem; border-radius: 16px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05); border-bottom: 5px solid #2563eb; text-align: center;">
-                <div style="font-size: 3rem; font-weight: 800; color: #0f172a; tracking: -0.05em; line-height: 1;">3+</div>
-                <div style="color: #64748b; font-size: 0.95rem; font-weight: 600; margin-top: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">Years Enterprise Experience</div>
+            <h1>Manisha E</h1>
+
+            <h2>Java Full Stack Developer</h2>
+
+            <p class="hero-description">
+                Building scalable enterprise applications with Angular, Spring Boot, AWS, and PostgreSQL.
+                Passionate about creating responsive user experiences and robust backend solutions.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#contact" class="btn primary-btn">Contact Me</a>
+                <a href="#experience" class="btn secondary-btn">View Experience</a>
             </div>
-            <div class="stat-card" style="background: #ffffff; padding: 2.2rem; border-radius: 16px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05); border-bottom: 5px solid #10b981; text-align: center;">
-                <div style="font-size: 3rem; font-weight: 800; color: #0f172a; tracking: -0.05em; line-height: 1;">30+</div>
-                <div style="color: #64748b; font-size: 0.95rem; font-weight: 600; margin-top: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">Production Features[cite: 1]</div>
-            </div>
-            <div class="stat-card" style="background: #ffffff; padding: 2.2rem; border-radius: 16px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05); border-bottom: 5px solid #8b5cf6; text-align: center;">
-                <div style="font-size: 1.8rem; font-weight: 800; color: #0f172a; padding: 0.6rem 0; line-height: 1;">Fast-Tracked</div>
-                <div style="color: #64748b; font-size: 0.95rem; font-weight: 600; margin-top: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">Promoted In 12 Mo.[cite: 1]</div>
-            </div>
-        </section>
-
-        <!-- TECHNICAL TOOLBOX SECTION -->
-        <section id="skills" style="margin-bottom: 6rem;">
-            <div style="text-align: center; margin-bottom: 3.5rem;">
-                <h2 style="font-size: 2.2rem; font-weight: 800; color: #0f172a; margin-bottom: 0.5rem; letter-spacing: -0.03em;">Technical Toolbox</h2>
-                <div style="width: 50px; height: 4px; background: #2563eb; margin: 0 auto; border-radius: 2px;"></div>
-            </div>
-            
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
-                <!-- Frontend Architecture -->
-                <div class="skill-group" style="background: #ffffff; padding: 2rem; border-radius: 14px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); border: 1px solid #e2e8f0; border-top: 3px solid #ef4444;">
-                    <h3 style="font-size: 1.15rem; color: #0f172a; margin-top: 0; margin-bottom: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
-                        🎨 Frontend Engineering
-                    </h3>
-                    <div style="display: flex; flex-wrap: wrap; gap: 0.6rem;">
-                        <span class="skill-badge" style="background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; padding: 0.45rem 0.9rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600;">Angular 14+[cite: 1]</span>
-                        <span class="skill-badge" style="background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; padding: 0.45rem 0.9rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600;">TypeScript[cite: 1]</span>
-                        <span class="skill-badge" style="background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; padding: 0.45rem 0.9rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600;">RxJS State Mgmt[cite: 1]</span>
-                        <span class="skill-badge" style="background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; padding: 0.45rem 0.9rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600;">Angular Material[cite: 1]</span>
-                        <span class="skill-badge" style="background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; padding: 0.45rem 0.9rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600;">HTML5 / CSS3 / SCSS[cite: 1]</span>
-                    </div>
-                </div>
-
-                <!-- Backend Architecture -->
-                <div class="skill-group" style="background: #ffffff; padding: 2rem; border-radius: 14px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); border: 1px solid #e2e8f0; border-top: 3px solid #2563eb;">
-                    <h3 style="font-size: 1.15rem; color: #0f172a; margin-top: 0; margin-bottom: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
-                        ⚙️ Backend Architecture
-                    </h3>
-                    <div style="display: flex; flex-wrap: wrap; gap: 0.6rem;">
-                        <span class="skill-badge" style="background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; padding: 0.45rem 0.9rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600;">Spring Boot[cite: 1]</span>
-                        <span class="skill-badge" style="background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; padding: 0.45rem 0.9rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600;">Spring Batch[cite: 1]</span>
-                        <span class="skill-badge" style="background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; padding: 0.45rem 0.9rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600;">Spring Data JPA[cite: 1]</span>
-                        <span class="skill-badge" style="background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; padding: 0.45rem 0.9rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600;">Hibernate[cite: 1]</span>
-                        <span class="skill-badge" style="background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; padding: 0.45rem 0.9rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600;">RESTful API Systems[cite: 1]</span>
-                    </div>
-                </div>
-
-                <!-- Cloud & DB -->
-                <div class="skill-group" style="background: #ffffff; padding: 2rem; border-radius: 14px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); border: 1px solid #e2e8f0; border-top: 3px solid #f59e0b;">
-                    <h3 style="font-size: 1.15rem; color: #0f172a; margin-top: 0; margin-bottom: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
-                        ☁️ Cloud & Infrastructure
-                    </h3>
-                    <div style="display: flex; flex-wrap: wrap; gap: 0.6rem;">
-                        <span class="skill-badge" style="background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; padding: 0.45rem 0.9rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600;">AWS (S3, SES, SQS)[cite: 1]</span>
-                        <span class="skill-badge" style="background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; padding: 0.45rem 0.9rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600;">AWS API Gateway[cite: 1]</span>
-                        <span class="skill-badge" style="background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; padding: 0.45rem 0.9rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600;">PostgreSQL Optimization[cite: 1]</span>
-                        <span class="skill-badge" style="background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; padding: 0.45rem 0.9rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600;">AWS CloudWatch[cite: 1]</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- PROFESSIONAL EXPERIENCE SECTION -->
-        <section id="experience" style="margin-bottom: 6rem;">
-            <div style="text-align: center; margin-bottom: 3.5rem;">
-                <h2 style="font-size: 2.2rem; font-weight: 800; color: #0f172a; margin-bottom: 0.5rem; letter-spacing: -0.03em;">Professional Experience</h2>
-                <div style="width: 50px; height: 4px; background: #2563eb; margin: 0 auto; border-radius: 2px;"></div>
-            </div>
-
-            <!-- Professional Timeline Card -->
-            <div class="exp-card" style="background: #ffffff; padding: 3rem; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.01); border: 1px solid #e2e8f0; border-left: 5px solid #cbd5e1;">
-                <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem; gap: 1.5rem;">
-                    <div>
-                        <span style="background: #eff6ff; color: #2563eb; padding: 0.4rem 0.8rem; border-radius: 6px; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; display: inline-block; margin-bottom: 0.75rem;">
-                            Current Role
-                        </span>
-                        <h3 style="font-size: 1.6rem; color: #0f172a; margin: 0 0 0.5rem 0; font-weight: 700; letter-spacing: -0.02em;">Engineer — Full Stack Developer[cite: 1]</h3>
-                        <div style="color: #475569; font-weight: 600; font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem;">
-                            🏢 Renault Nissan Technology & Business Centre India (RNTBCI)[cite: 1]
-                        </div>
-                    </div>
-                    <div style="text-align: right; min-width: 200px;">
-                        <span style="background: #0f172a; color: #ffffff; padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 600; font-size: 0.9rem; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-                            Oct 2024 — Present[cite: 1]
-                        </span>
-                        <div style="color: #64748b; font-size: 0.85rem; margin-top: 0.75rem; font-weight: 500;">📍 Chennai, India[cite: 1]</div>
-                    </div>
-                </div>
-
-                <hr style="border: 0; border-top: 1px solid #f1f5f9; margin-bottom: 2rem;">
-
-                <ul style="padding-left: 1.2rem; color: #475569; font-size: 1.05rem; line-height: 1.8;">
-                    <li style="margin-bottom: 1rem; padding-left: 0.25rem;">
-                        <strong>Enterprise System Execution:</strong> Directed end-to-end full stack logic on core business apps integrating scalable <strong>Angular frontends</strong> alongside responsive <strong>Spring Boot backend frameworks</strong>[cite: 1].
-                    </li>
-                    <li style="margin-bottom: 1rem; padding-left: 0.25rem;">
-                        <strong>Modern API Architecture:</strong> Engineered robust RESTful endpoints fortified with securely handled <strong>JWT Auth tokens</strong>, rigorous centralized global exception tracking, and modern OpenAPI/Swagger catalogs[cite: 1].
-                    </li>
-                    <li style="margin-bottom: 1rem; padding-left: 0.25rem;">
-                        <strong>Cloud & Batch Optimization:</strong> Orchestrated native data synchronization tasks via complex <strong>Spring Batch processing routines</strong> paired seamlessly with cloud triggers across <strong>AWS S3 asset stores</strong>, SQS message brokering, and SES alerts[cite: 1].
-                    </li>
-                    <li style="margin-bottom: 1rem; padding-left: 0.25rem;">
-                        <strong>Database Performance:</strong> Overhauled legacy enterprise **PostgreSQL tables**, optimizing complex query run-times and caching infrastructure to maximize transactional integrity under highly concurrent workloads[cite: 1].
-                    </li>
-                    <li style="margin-bottom: 1rem; padding-left: 0.25rem;">
-                        <strong>Asynchronous File Handling:</strong> Constructed memory-efficient dynamic parser utilities capable of processing and validating vast bulk multi-threaded file uploads (CSV, TSV, Excel templates)[cite: 1].
-                    </li>
-                </ul>
-            </div>
-        </section>
-
-        <!-- EDUCATION & CREDENTIALS SPLIT -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 2rem;">
-            
-            <!-- Education -->
-            <section id="education" style="background: #ffffff; padding: 2.5rem; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.01); border: 1px solid #e2e8f0;">
-                <h3 style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-top: 0; margin-bottom: 2rem; display: flex; align-items: center; gap: 0.6rem;">
-                    🎓 Education Focus
-                </h3>
-                <div>
-                    <h4 style="font-size: 1.2rem; margin: 0 0 0.5rem 0; color: #0f172a; font-weight: 700;">Bachelor of Technology in IT[cite: 1]</h4>
-                    <p style="color: #475569; margin: 0 0 1rem 0; font-size: 1rem; font-weight: 500;">Dr. NGP Institute Of Technology, Coimbatore[cite: 1]</p>
-                    <div style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 0.8rem 1.2rem; border-radius: 10px; border: 1px solid #f1f5f9;">
-                        <span style="font-size: 0.9rem; color: #64748b; font-weight: 600;">Jan 2019 — Jan 2023[cite: 1]</span>
-                        <span style="background: #dcfce7; color: #16a34a; padding: 0.3rem 0.8rem; border-radius: 6px; font-weight: 700; font-size: 0.85rem;">GPA: 8.38 / 10[cite: 1]</span>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Certifications -->
-            <section style="background: #ffffff; padding: 2.5rem; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.01); border: 1px solid #e2e8f0;">
-                <h3 style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-top: 0; margin-bottom: 2rem; display: flex; align-items: center; gap: 0.6rem;">
-                    📜 Credentials & Accreditations
-                </h3>
-                <ul style="list-style: none; padding: 0; margin: 0;">
-                    <li style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; padding-bottom: 1rem; border-bottom: 1px solid #f1f5f9;">
-                        <span style="font-size: 1rem; font-weight: 600; color: #334155;">AWS Certified Cloud Practitioner[cite: 1]</span>
-                        <span style="background: #fef3c7; color: #d97706; padding: 0.3rem 0.6rem; border-radius: 6px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">In Progress[cite: 1]</span>
-                    </li>
-                    <li style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; padding-bottom: 1rem; border-bottom: 1px solid #f1f5f9;">
-                        <span style="font-size: 1rem; font-weight: 600; color: #334155;">Web Application Development Intern[cite: 1]</span>
-                        <span style="font-size: 0.9rem; color: #64748b; font-weight: 500;">Internshala[cite: 1]</span>
-                    </li>
-                    <li style="display: flex; justify-content: space-between; align-items: center;">
-                        <span style="font-size: 1rem; font-weight: 600; color: #334155;">Frontend Development Mastery[cite: 1]</span>
-                        <span style="font-size: 0.9rem; color: #64748b; font-weight: 500;">Great Learning[cite: 1]</span>
-                    </li>
-                </ul>
-            </section>
-
         </div>
+    </section>
 
-    </main>
+    <!-- About -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
 
-    <!-- PREMIUM FOOTER -->
-    <footer style="background-color: #0f172a; color: #64748b; text-align: center; padding: 4rem 2rem; border-top: 1px solid #1e293b; font-size: 0.95rem;">
-        <p style="margin: 0 0 0.75rem 0; color: #f1f5f9; font-weight: 600; font-size: 1.1rem; letter-spacing: -0.02em;">Manisha E — Professional Portfolio</p>
-        <p style="margin: 0; font-size: 0.85rem; color: #475569;">References available within the file "Manisha E CV 1.pdf".</p>
-        <p style="margin: 1.5rem 0 0 0; font-size: 0.8rem; color: #334155;">&copy; 2026. Powered by standard HTML5, CSS3 structural keyframes, and modern layouts.</p>
+            <div class="about-content">
+                <p>
+                    Java Full Stack Developer with 3+ years of enterprise experience specializing in
+                    Angular 14+, Spring Boot, Spring Batch, and AWS services including S3, SES, SQS,
+                    and API Gateway.
+                </p>
+
+                <p>
+                    Experienced in frontend development, backend REST APIs, PostgreSQL optimization,
+                    Agile delivery, CI/CD deployments, and production support.
+                </p>
+
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>Location</h3>
+                        <p>Chennai, India</p>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>Experience</h3>
+                        <p>3+ Years</p>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>Work Mode</h3>
+                        <p>Remote | Hybrid | On-Site</p>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>Relocation</h3>
+                        <p>Open to Relocate</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills" class="section dark-section">
+        <div class="container">
+            <h2 class="section-title">Technical Skills</h2>
+
+            <div class="skills-grid">
+
+                <div class="skill-card">
+                    <h3>Frontend</h3>
+                    <ul>
+                        <li>Angular 14+</li>
+                        <li>TypeScript</li>
+                        <li>HTML5</li>
+                        <li>CSS3</li>
+                        <li>SCSS</li>
+                        <li>Angular Material</li>
+                        <li>RxJS</li>
+                    </ul>
+                </div>
+
+                <div class="skill-card">
+                    <h3>Backend</h3>
+                    <ul>
+                        <li>Spring Boot</li>
+                        <li>Spring Batch</li>
+                        <li>Spring Data JPA</li>
+                        <li>Hibernate</li>
+                        <li>REST APIs</li>
+                    </ul>
+                </div>
+
+                <div class="skill-card">
+                    <h3>Database</h3>
+                    <ul>
+                        <li>PostgreSQL</li>
+                        <li>MySQL</li>
+                        <li>SQL</li>
+                        <li>JDBC</li>
+                        <li>Query Optimization</li>
+                    </ul>
+                </div>
+
+                <div class="skill-card">
+                    <h3>AWS & Cloud</h3>
+                    <ul>
+                        <li>S3</li>
+                        <li>SES</li>
+                        <li>SQS</li>
+                        <li>CloudWatch</li>
+                        <li>API Gateway</li>
+                    </ul>
+                </div>
+
+                <div class="skill-card">
+                    <h3>DevOps</h3>
+                    <ul>
+                        <li>Git</li>
+                        <li>GitHub</li>
+                        <li>Bitbucket</li>
+                        <li>Jenkins</li>
+                        <li>CI/CD</li>
+                    </ul>
+                </div>
+
+                <div class="skill-card">
+                    <h3>Tools & Methods</h3>
+                    <ul>
+                        <li>Swagger</li>
+                        <li>Postman</li>
+                        <li>Agile</li>
+                        <li>Scrum</li>
+                        <li>Production Support</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience -->
+    <section id="experience" class="section">
+        <div class="container">
+            <h2 class="section-title">Professional Experience</h2>
+
+            <div class="timeline">
+
+                <div class="timeline-card">
+                    <h3>Engineer – Full Stack Developer</h3>
+                    <h4>Renault Nissan Technology & Business Centre India (RNTBCI)</h4>
+                    <span>Oct 2024 – Present</span>
+
+                    <ul>
+                        <li>Led full stack development using Angular and Spring Boot.</li>
+                        <li>Built responsive Angular Material components and RxJS state management.</li>
+                        <li>Developed secure REST APIs with JWT authentication.</li>
+                        <li>Integrated AWS services including S3, SES, SQS, and API Gateway.</li>
+                        <li>Optimized PostgreSQL queries for improved performance.</li>
+                        <li>Managed CI/CD deployments through Jenkins pipelines.</li>
+                        <li>Implemented CSV, TSV, and Excel upload processing modules.</li>
+                        <li>Developed Spring Batch jobs for asynchronous processing.</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Achievements -->
+    <section class="section dark-section">
+        <div class="container">
+            <h2 class="section-title">Key Achievements</h2>
+
+            <div class="achievement-grid">
+
+                <div class="achievement-card">
+                    <h3>Promotion</h3>
+                    <p>Promoted to Engineer role within 12 months for outstanding technical performance.</p>
+                </div>
+
+                <div class="achievement-card">
+                    <h3>30+ Features</h3>
+                    <p>Delivered over 30 production features for enterprise automotive workflows.</p>
+                </div>
+
+                <div class="achievement-card">
+                    <h3>Quality Improvements</h3>
+                    <p>Reduced critical incidents through monitoring and quality enhancements.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <footer id="contact">
+        <div class="container">
+            <h2>Let's Connect</h2>
+
+            <p>Email: manisharaj2865@gmail.com</p>
+            <p>Phone: +91 9790372865</p>
+            <p>Location: Chennai, India</p>
+
+            <p class="footer-copy">
+                © 2026 Manisha E. All Rights Reserved.
+            </p>
+        </div>
     </footer>
 
+    <script src="script.js"></script>
 </body>
 </html>
