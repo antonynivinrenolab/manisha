@@ -1,310 +1,469 @@
 (function () {
-    'use strict';
+    "use strict";
 
-    // ============================================
-    // TIME-BASED THEME DETECTION
-    // ============================================
-    function getTimeTheme() {
-        const hour = new Date().getHours();
-        if (hour >= 5 && hour < 12) return 'morning';
-        if (hour >= 12 && hour < 17) return 'afternoon';
-        if (hour >= 17 && hour < 20) return 'evening';
-        return 'night';
+    /* ========================================
+       THEME / SKY CONFIG
+       ======================================== */
+    const THEMES = ["morning", "afternoon", "evening", "night"];
+    let manualTheme = null;
+
+    // Sun visible: 5:30 → 18:30  (rises left→arc→right)
+    // Moon visible: 18:30 → 5:30 (rises left→arc→right)
+    const SUN_RISE_HOUR = 5.5;   // 5:30 AM
+    const SUN_SET_HOUR = 18.5;   // 6:30 PM
+    const MOON_RISE_HOUR = 18.5; // 6:30 PM  
+    const MOON_SET_HOUR = 5.5;   // 5:30 AM
+
+    /* ---- helpers ---- */
+    function hourNow() {
+        const d = new Date();
+        return d.getHours() + d.getMinutes() / 60;
     }
 
-    function getTimeGreeting() {
-        const hour = new Date().getHours();
-        if (hour >= 5 && hour < 12) return { greeting: 'Good Morning', icon: '🌅' };
-        if (hour >= 12 && hour < 17) return { greeting: 'Good Afternoon', icon: '☀️' };
-        if (hour >= 17 && hour < 20) return { greeting: 'Good Evening', icon: '🌇' };
-        return { greeting: 'Good Night', icon: '🌙' };
+    function themeForHour(h) {
+        if (h >= 5 && h < 12) return "morning";
+        if (h >= 12 && h < 17) return "afternoon";
+        if (h >= 17 && h < 20) return "evening";
+        return "night";
     }
 
-    // ============================================
-    // SMOOTH SUN / MOON POSITIONING
-    // ============================================
-    function updateCelestialPosition() {
-        const now = new Date();
-        const hour = now.getHours();
-        const minute = now.getMinutes();
-        const totalMinutes = hour * 60 + minute;
+    function greetingForTheme(t) {
+        return {
+            morning: "Good Morning ☀️",
+            afternoon: "Good Afternoon 🌤️",
+            evening: "Good Evening 🌇",
+            night: "Good Night 🌙",
+        }[t];
+    }
 
-        let topPercent, leftPercent;
-        const celestialBody = document.getElementById('celestialBody');
-        const sunRays = document.getElementById('sunRays');
+    function iconForTheme(t) {
+        return { morning: "🌅", afternoon: "☀️", evening: "🌇", night: "🌙" }[t];
+    }
 
-        if (hour >= 5 && hour < 20) {
-            // Sun arc: from 5:00 (left) to 20:00 (right)
-            const startMin = 5 * 60;      // 300
-            const endMin = 20 * 60;       // 1200
-            const progress = (totalMinutes - startMin) / (endMin - startMin); // 0 to 1
-            // Left: 10% to 90%
-            leftPercent = 10 + progress * 80;
-            // Top: high arc (low percent = higher on screen)
-            // Parabolic: starts low (80%), peaks at noon (20%), ends low (80%)
-            const noonProgress = Math.abs(progress - 0.5) * 2; // 0 at noon, 1 at edges
-            topPercent = 20 + noonProgress * 60; // 20% (top) at noon, 80% (bottom) at sunrise/sunset
+    /* ---- celestial arc position ----
+       Given the current hour and the rise/set hours,
+       compute a progress 0→1 (left→right) and map
+       onto a smooth parabolic arc. */
+    function celestialPos(currentHour, riseH, setH) {
+        let duration, elapsed;
+
+        if (riseH < setH) {
+            // simple case: rise and set same day
+            duration = setH - riseH;
+            elapsed = currentHour - riseH;
         } else {
-            // Moon path (night): 20:00 to 5:00
-            let nightProgress;
-            if (hour >= 20) {
-                // 20:00 - 23:59
-                const startMin = 20 * 60;       // 1200
-                const endMin = 24 * 60;         // 1440
-                nightProgress = (totalMinutes - startMin) / (endMin - startMin); // 0 to 1
+            // wraps midnight
+            duration = 24 - riseH + setH;
+            elapsed = currentHour >= riseH
+                ? currentHour - riseH
+                : currentHour + 24 - riseH;
+        }
+
+        let progress = elapsed / duration;
+        progress = Math.max(0, Math.min(1, progress));
+
+        // X: 5% → 95%
+        const x = 5 + progress * 90;
+
+        // Y: parabolic arc — highest at midpoint
+        // At edges (0,1) → bottom; at 0.5 → top
+        const maxHeight = 78; // % from top of sky the peak reaches (lower = higher on screen)
+        const minHeight = 10; // peak Y %
+        const parabola = 4 * progress * (1 - progress); // 0→1→0
+        const y = maxHeight - parabola * (maxHeight - minHeight);
+
+        return { x, y, progress, visible: progress > 0 && progress < 1 };
+    }
+
+    function isSunUp(h) {
+        return h >= SUN_RISE_HOUR && h <= SUN_SET_HOUR;
+    }
+
+    function isMoonUp(h) {
+        return h >= MOON_RISE_HOUR || h <= MOON_SET_HOUR;
+    }
+
+    /* ========================================
+       APPLY THEME + POSITION CELESTIALS
+       ======================================== */
+    const $body = document.body;
+    const $sun = document.getElementById("sun");
+    const $moon = document.getElementById("moon");
+    const $horizonGlow = document.getElementById("horizonGlow");
+    const $greeting = document.getElementById("greeting");
+    const $timeIcon = document.getElementById("timeIcon");
+    const $timeText = document.getElementById("timeText");
+    const $timeLabel = document.getElementById("timeLabel");
+    const $themeBtn = document.getElementById("themeBtn");
+
+    function applyAll() {
+        const h = manualTheme !== null ? fakeHourForTheme(manualTheme) : hourNow();
+        const theme = manualTheme || themeForHour(h);
+
+        $body.setAttribute("data-theme", theme);
+
+        // Greeting & badge
+        if ($greeting) $greeting.textContent = greetingForTheme(theme);
+        if ($timeIcon) $timeIcon.textContent = iconForTheme(theme);
+        if ($timeLabel) $timeLabel.textContent = theme.charAt(0).toUpperCase() + theme.slice(1);
+        if ($timeText) {
+            $timeText.textContent = new Date().toLocaleTimeString("en-US", {
+                hour: "2-digit",
+                minute: "2-digit",
+            });
+        }
+
+        // Theme toggle icon
+        const btnIcon = $themeBtn?.querySelector("i");
+        if (btnIcon) {
+            btnIcon.className = {
+                morning: "fas fa-sun",
+                afternoon: "fas fa-cloud-sun",
+                evening: "fas fa-cloud-moon",
+                night: "fas fa-moon",
+            }[theme];
+        }
+
+        positionCelestials(h);
+    }
+
+    function fakeHourForTheme(t) {
+        return { morning: 8, afternoon: 14, evening: 18, night: 23 }[t];
+    }
+
+    function positionCelestials(h) {
+        /* --- SUN --- */
+        if (isSunUp(h)) {
+            const pos = celestialPos(h, SUN_RISE_HOUR, SUN_SET_HOUR);
+            $sun.style.left = pos.x + "%";
+            $sun.style.top = pos.y + "%";
+            $sun.style.opacity = 1;
+            $sun.style.transform = "translate(-50%,-50%)";
+
+            // Near horizon → enlarge & redden effect via CSS variables already handled by theme
+            // Horizon glow follows sun horizontally
+            $horizonGlow.style.setProperty("--glow-x", pos.x + "%");
+
+            // Scale sun bigger near horizon
+            const horizonScale = 1 + (1 - Math.sin(pos.progress * Math.PI)) * 0.5;
+            $sun.style.transform = `translate(-50%,-50%) scale(${horizonScale})`;
+        } else {
+            $sun.style.opacity = 0;
+        }
+
+        /* --- MOON --- */
+        if (isMoonUp(h)) {
+            const pos = celestialPos(h, MOON_RISE_HOUR, MOON_SET_HOUR);
+            $moon.style.left = pos.x + "%";
+            $moon.style.top = pos.y + "%";
+            $moon.style.opacity = 1;
+            $moon.style.transform = "translate(-50%,-50%)";
+
+            $horizonGlow.style.setProperty("--glow-x", pos.x + "%");
+        } else {
+            $moon.style.opacity = 0;
+        }
+    }
+
+    // Manual theme cycling
+    let manualIdx = -1;
+    $themeBtn?.addEventListener("click", () => {
+        manualIdx = (manualIdx + 1) % THEMES.length;
+        manualTheme = THEMES[manualIdx];
+        applyAll();
+    });
+
+    /* ========================================
+       STARS
+       ======================================== */
+    function createStars() {
+        const c = document.getElementById("stars");
+        if (!c) return;
+        for (let i = 0; i < 160; i++) {
+            const s = document.createElement("div");
+            s.className = "star twinkle";
+            const size = Math.random() * 2.5 + 0.5;
+            s.style.cssText = `
+                width:${size}px;height:${size}px;
+                top:${Math.random() * 75}%;
+                left:${Math.random() * 100}%;
+                --dur:${(Math.random() * 4 + 2).toFixed(1)}s;
+                --del:${(Math.random() * 6).toFixed(1)}s;
+            `;
+            c.appendChild(s);
+        }
+    }
+
+    /* ========================================
+       SHOOTING STARS (night / evening only)
+       ======================================== */
+    function launchShootingStar() {
+        const theme = $body.getAttribute("data-theme");
+        if (theme !== "night" && theme !== "evening") return;
+
+        const c = document.getElementById("shootingStars");
+        if (!c) return;
+        const s = document.createElement("div");
+        s.className = "shooting-star";
+        s.style.top = Math.random() * 40 + "%";
+        s.style.left = Math.random() * 60 + "%";
+        c.appendChild(s);
+
+        requestAnimationFrame(() => s.classList.add("fly"));
+        setTimeout(() => s.remove(), 1400);
+    }
+    setInterval(launchShootingStar, 5000);
+
+    /* ========================================
+       TREES (landscape detail)
+       ======================================== */
+    function createTrees() {
+        const c = document.getElementById("trees");
+        if (!c) return;
+        for (let i = 0; i < 30; i++) {
+            const t = document.createElement("div");
+            t.className = "tree-shape";
+            const h = Math.random() * 18 + 10;
+            const w = h * 0.7;
+            t.style.left = Math.random() * 100 + "%";
+            t.innerHTML = `
+                <div class="tree-trunk" style="width:${w * 0.18}px;height:${h * 0.4}px;"></div>
+                <div class="tree-top" style="border-left-width:${w / 2}px;border-right-width:${w / 2}px;border-bottom-width:${h * 0.65}px;"></div>
+            `;
+            c.appendChild(t);
+        }
+    }
+
+    /* ========================================
+       NAVIGATION
+       ======================================== */
+    const $nav = document.getElementById("nav");
+    const $menuBtn = document.getElementById("menuBtn");
+    const $navLinks = document.getElementById("navLinks");
+    const navAnchors = document.querySelectorAll(".nav-link");
+
+    window.addEventListener("scroll", () => {
+        $nav.classList.toggle("scrolled", window.scrollY > 50);
+    });
+
+    $menuBtn?.addEventListener("click", () => {
+        $menuBtn.classList.toggle("open");
+        $navLinks.classList.toggle("open");
+    });
+
+    navAnchors.forEach((a) => {
+        a.addEventListener("click", () => {
+            $menuBtn?.classList.remove("open");
+            $navLinks?.classList.remove("open");
+        });
+    });
+
+    // Active link on scroll
+    function updateActive() {
+        const secs = document.querySelectorAll(".sec");
+        const scrollY = window.scrollY + 200;
+        secs.forEach((sec) => {
+            const id = sec.id;
+            if (scrollY >= sec.offsetTop && scrollY < sec.offsetTop + sec.offsetHeight) {
+                navAnchors.forEach((a) => {
+                    a.classList.toggle("active", a.dataset.sec === id);
+                });
+            }
+        });
+    }
+    window.addEventListener("scroll", updateActive);
+
+    // Close menu on outside click
+    document.addEventListener("click", (e) => {
+        if (
+            $navLinks?.classList.contains("open") &&
+            !$navLinks.contains(e.target) &&
+            !$menuBtn.contains(e.target)
+        ) {
+            $menuBtn.classList.remove("open");
+            $navLinks.classList.remove("open");
+        }
+    });
+
+    /* ========================================
+       SMOOTH SCROLL
+       ======================================== */
+    document.querySelectorAll('a[href^="#"]').forEach((a) => {
+        a.addEventListener("click", (e) => {
+            e.preventDefault();
+            const target = document.querySelector(a.getAttribute("href"));
+            if (target) {
+                window.scrollTo({
+                    top: target.offsetTop - 70,
+                    behavior: "smooth",
+                });
+            }
+        });
+    });
+
+    /* ========================================
+       SCROLL REVEAL
+       ======================================== */
+    function initReveal() {
+        const els = document.querySelectorAll(".fade-up");
+        const obs = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((en, i) => {
+                    if (en.isIntersecting) {
+                        setTimeout(() => en.target.classList.add("visible"), i * 80);
+                        obs.unobserve(en.target);
+                    }
+                });
+            },
+            { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+        );
+        els.forEach((el) => obs.observe(el));
+    }
+
+    /* ========================================
+       SKILL BARS
+       ======================================== */
+    function initBars() {
+        const items = document.querySelectorAll(".bar-item");
+        const obs = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((en) => {
+                    if (en.isIntersecting) {
+                        const el = en.target;
+                        el.classList.add("show");
+                        const pct = el.dataset.pct;
+                        const fill = el.querySelector(".bar-fill");
+                        setTimeout(() => {
+                            if (fill) fill.style.width = pct + "%";
+                        }, 150);
+                        obs.unobserve(el);
+                    }
+                });
+            },
+            { threshold: 0.25 }
+        );
+        items.forEach((el) => obs.observe(el));
+    }
+
+    /* ========================================
+       COUNTER ANIMATION
+       ======================================== */
+    function initCounters() {
+        const nums = document.querySelectorAll(".stat-num");
+        const obs = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((en) => {
+                    if (en.isIntersecting) {
+                        const el = en.target;
+                        const target = parseInt(el.dataset.target, 10);
+                        const dur = 1800;
+                        const start = performance.now();
+
+                        function tick(now) {
+                            const p = Math.min((now - start) / dur, 1);
+                            const ease = 1 - Math.pow(1 - p, 3);
+                            el.textContent = Math.round(ease * target);
+                            if (p < 1) requestAnimationFrame(tick);
+                        }
+                        requestAnimationFrame(tick);
+                        obs.unobserve(el);
+                    }
+                });
+            },
+            { threshold: 0.5 }
+        );
+        nums.forEach((el) => obs.observe(el));
+    }
+
+    /* ========================================
+       TYPING EFFECT
+       ======================================== */
+    function initTyping() {
+        const el = document.getElementById("roleText");
+        if (!el) return;
+        const text = el.textContent;
+        el.textContent = "";
+        el.style.borderRight = "2px solid var(--accent)";
+        let i = 0;
+        function type() {
+            if (i < text.length) {
+                el.textContent += text[i++];
+                setTimeout(type, 55);
             } else {
-                // 0:00 - 4:59
-                const startMin = 0;
-                const endMin = 5 * 60;          // 300
-                nightProgress = totalMinutes / endMin; // 0 to 1
+                setTimeout(() => (el.style.borderRight = "none"), 1800);
             }
-            // Moon moves from left (0%) to right (100%) across the night
-            leftPercent = 10 + nightProgress * 80;
-            // Moon arc: highest around midnight (progress ~0.5)
-            const midProgress = Math.abs(nightProgress - 0.5) * 2;
-            topPercent = 20 + midProgress * 55; // 20% (high) at midnight, 75% at edges
         }
-
-        // Apply positions
-        if (celestialBody) {
-            celestialBody.style.top = topPercent + '%';
-            celestialBody.style.left = leftPercent + '%';
-        }
-        if (sunRays) {
-            sunRays.style.top = topPercent + '%';
-            sunRays.style.left = leftPercent + '%';
-        }
+        setTimeout(type, 1200);
     }
 
-    // ============================================
-    // STARS GENERATION (Night Theme)
-    // ============================================
-    let starsGenerated = false;
-    const starsContainer = document.getElementById('starsContainer');
-
-    function generateStars() {
-        if (starsGenerated) return;
-        starsContainer.innerHTML = '';
-        const fragment = document.createDocumentFragment();
-        const starCount = 120;
-        for (let i = 0; i < starCount; i++) {
-            const star = document.createElement('div');
-            star.classList.add('star-dot');
-            const size = Math.random() * 3 + 1;
-            star.style.width = size + 'px';
-            star.style.height = size + 'px';
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.setProperty('--twinkle-duration', (Math.random() * 3 + 2) + 's');
-            star.style.setProperty('--twinkle-delay', (Math.random() * 4) + 's');
-            fragment.appendChild(star);
-        }
-        starsContainer.appendChild(fragment);
-        starsGenerated = true;
-    }
-
-    function clearStars() {
-        starsContainer.innerHTML = '';
-        starsGenerated = false;
-    }
-
-    function manageStars(theme) {
-        if (theme === 'night') {
-            generateStars();
-            starsContainer.style.opacity = '1';
-        } else {
-            starsContainer.style.opacity = '0';
+    /* ========================================
+       CONTACT FORM
+       ======================================== */
+    document.getElementById("contactForm")?.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const btn = e.target.querySelector(".btn");
+        const orig = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+        btn.disabled = true;
+        setTimeout(() => {
+            btn.innerHTML = '<i class="fas fa-check"></i> Sent!';
+            btn.style.background = "linear-gradient(135deg,#4caf50,#45a049)";
             setTimeout(() => {
-                if (document.body.dataset.currentTheme !== 'night') {
-                    clearStars();
-                }
-            }, 1000);
+                btn.innerHTML = orig;
+                btn.style.background = "";
+                btn.disabled = false;
+                e.target.reset();
+            }, 2500);
+        }, 1200);
+    });
+
+    /* ========================================
+       KEYBOARD: T = toggle theme, Esc = close menu
+       ======================================== */
+    document.addEventListener("keydown", (e) => {
+        if (
+            (e.key === "t" || e.key === "T") &&
+            !["INPUT", "TEXTAREA"].includes(document.activeElement.tagName)
+        ) {
+            manualIdx = (manualIdx + 1) % THEMES.length;
+            manualTheme = THEMES[manualIdx];
+            applyAll();
         }
-    }
+        if (e.key === "Escape") {
+            $menuBtn?.classList.remove("open");
+            $navLinks?.classList.remove("open");
+        }
+    });
 
-    // ============================================
-    // APPLY THEME (called on load and every hour)
-    // ============================================
-    function applyTheme() {
-        const theme = getTimeTheme();
-        const { greeting, icon } = getTimeGreeting();
-
-        // Remove all theme classes
-        document.body.classList.remove('theme-morning', 'theme-afternoon', 'theme-evening', 'theme-night');
-        document.body.classList.add('theme-' + theme);
-
-        // Update greeting
-        const greetingEl = document.getElementById('timeGreeting');
-        const iconEl = document.getElementById('timeIcon');
-        if (greetingEl) greetingEl.textContent = greeting;
-        if (iconEl) iconEl.textContent = icon;
-
-        // Manage stars
-        manageStars(theme);
-
-        // Store current theme
-        document.body.dataset.currentTheme = theme;
-
-        // Immediately update celestial position (so it's correct when theme changes)
-        updateCelestialPosition();
-    }
-
-    // ============================================
-    // MOBILE NAVIGATION
-    // ============================================
-    const navToggle = document.getElementById('navToggle');
-    const navLinks = document.getElementById('navLinks');
-    const allNavLinks = document.querySelectorAll('.nav-link');
-
-    function closeNav() {
-        navLinks.classList.remove('open');
-        navToggle.classList.remove('open');
-        document.body.style.overflow = '';
-    }
-
-    function openNav() {
-        navLinks.classList.add('open');
-        navToggle.classList.add('open');
-        document.body.style.overflow = 'hidden';
-    }
-
-    navToggle.addEventListener('click', function () {
-        if (navLinks.classList.contains('open')) {
-            closeNav();
+    /* ========================================
+       TICK — update clock + positions every second
+       ======================================== */
+    function tick() {
+        if (manualTheme === null) {
+            // auto mode: real time
+            applyAll();
         } else {
-            openNav();
-        }
-    });
-
-    allNavLinks.forEach(function (link) {
-        link.addEventListener('click', closeNav);
-    });
-
-    document.addEventListener('click', function (e) {
-        if (navLinks.classList.contains('open') &&
-            !navLinks.contains(e.target) &&
-            !navToggle.contains(e.target)) {
-            closeNav();
-        }
-    });
-
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && navLinks.classList.contains('open')) {
-            closeNav();
-        }
-    });
-
-    // ============================================
-    // ACTIVE NAV LINK HIGHLIGHT ON SCROLL
-    // ============================================
-    const sections = document.querySelectorAll('.section[id], .hero[id]');
-    const navLinkElements = document.querySelectorAll('.nav-link');
-
-    function updateActiveNavLink() {
-        let currentSectionId = '';
-        const scrollPos = window.scrollY + 100;
-        sections.forEach(function (section) {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.offsetHeight;
-            if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
-                currentSectionId = section.getAttribute('id');
+            // manual mode: just update clock display
+            if ($timeText) {
+                $timeText.textContent = new Date().toLocaleTimeString("en-US", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                });
             }
-        });
-        navLinkElements.forEach(function (link) {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === '#' + currentSectionId) {
-                link.classList.add('active');
-            }
-        });
+        }
     }
 
-    // ============================================
-    // FADE-IN ON SCROLL (Intersection Observer)
-    // ============================================
-    const fadeElements = document.querySelectorAll(
-        '.card, .section-title, .about-text, .timeline-item, .achievement-card, .cert-card, .contact-item, .highlight-item, .education-card'
-    );
-    fadeElements.forEach(function (el) { el.classList.add('fade-in'); });
+    /* ========================================
+       INIT
+       ======================================== */
+    createStars();
+    createTrees();
+    applyAll();
+    initReveal();
+    initBars();
+    initCounters();
+    initTyping();
 
-    const observerOptions = { root: null, rootMargin: '0px 0px -40px 0px', threshold: 0.1 };
-    const observer = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
-        });
-    }, observerOptions);
-    fadeElements.forEach(function (el) { observer.observe(el); });
-
-    // ============================================
-    // BACK TO TOP & LOGO
-    // ============================================
-    const backToTop = document.querySelector('.back-to-top');
-    if (backToTop) {
-        backToTop.addEventListener('click', function (e) {
-            e.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            closeNav();
-        });
-    }
-
-    const navLogo = document.querySelector('.nav-logo');
-    if (navLogo) {
-        navLogo.addEventListener('click', function (e) {
-            e.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            closeNav();
-        });
-    }
-
-    // ============================================
-    // SET CURRENT YEAR
-    // ============================================
-    const yearEl = document.getElementById('currentYear');
-    if (yearEl) yearEl.textContent = new Date().getFullYear();
-
-    // ============================================
-    // INITIALIZATION & CONTINUOUS UPDATES
-    // ============================================
-    function init() {
-        applyTheme();
-        updateActiveNavLink();
-        updateCelestialPosition();
-
-        // Update celestial position every minute
-        setInterval(updateCelestialPosition, 60000);
-
-        // Re‑check theme every 2 minutes (to catch hour changes)
-        setInterval(function () {
-            const currentTheme = document.body.dataset.currentTheme;
-            const newTheme = getTimeTheme();
-            if (currentTheme !== newTheme) {
-                applyTheme();
-            }
-        }, 120000);
-
-        // Also check at the start of each hour
-        function scheduleHourCheck() {
-            const now = new Date();
-            const msToNextHour = (60 - now.getMinutes()) * 60 * 1000 - now.getSeconds() * 1000 - now.getMilliseconds();
-            setTimeout(function () {
-                applyTheme();
-                scheduleHourCheck();
-            }, msToNextHour + 1000);
-        }
-        scheduleHourCheck();
-    }
-
-    window.addEventListener('scroll', updateActiveNavLink, { passive: true });
-
-    let resizeTimeout;
-    window.addEventListener('resize', function () {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(updateActiveNavLink, 200);
-    });
-
-    init();
-
-    console.log('🌅 Portfolio ready! Continuous sun/moon movement active.');
-    console.log('📍 Manisha E — Java Full Stack Developer | Chennai, India');
+    // Update every second for smooth celestial movement
+    setInterval(tick, 1000);
 })();
