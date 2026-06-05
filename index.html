@@ -1,501 +1,296 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>
-        Manisha E | Java Full Stack Developer
-    </title>
-
-    <link rel="stylesheet"
-          href="style.css">
-
-    <link rel="preconnect"
-          href="https://fonts.googleapis.com">
-
-    <link rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manisha E | Senior Full Stack Engineer</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@500;700;800&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
-    <!-- Animated Background -->
+    <canvas id="interactive-ambient-canvas"></canvas>
 
-    <div class="bg-grid"></div>
-
-    <!-- NAVBAR -->
+    <div id="scroll-progress"></div>
 
     <header>
-
         <nav class="navbar">
-
             <div class="logo">
-                Manisha<span>.E</span>
+                Manisha<span class="logo-dot">.E</span>
+                <span id="current-theme-badge" class="theme-status-indicator">Initializing Engine...</span>
             </div>
-
-            <ul class="nav-links"
-                id="navLinks">
-
-                <li>
-                    <a href="#hero">Home</a>
-                </li>
-
-                <li>
-                    <a href="#about">About</a>
-                </li>
-
-                <li>
-                    <a href="#skills">Skills</a>
-                </li>
-
-                <li>
-                    <a href="#experience">Experience</a>
-                </li>
-
-                <li>
-                    <a href="#achievements">Achievements</a>
-                </li>
-
-                <li>
-                    <a href="#education">Education</a>
-                </li>
-
-                <li>
-                    <a href="#contact">Contact</a>
-                </li>
-
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#hero" class="nav-item">Home</a></li>
+                <li><a href="#about" class="nav-item">About</a></li>
+                <li><a href="#skills" class="nav-item">Skills</a></li>
+                <li><a href="#experience" class="nav-item">Experience</a></li>
+                <li><a href="#achievements" class="nav-item">Achievements</a></li>
+                <li><a href="#education" class="nav-item">Education</a></li>
+                <li><a href="#contact" class="nav-item project-talk-btn">Let's Talk</a></li>
             </ul>
-
-            <div class="menu-btn"
-                 id="menuBtn">
-                ☰
+            <div class="menu-btn" id="menuBtn">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
             </div>
-
         </nav>
-
     </header>
 
-    <!-- HERO -->
-
-    <section id="hero"
-             class="hero reveal">
-
-        <!-- Dynamic Sky -->
-
-        <div class="sky">
-
-            <div id="sunMoon"></div>
-
-            <div id="stars"></div>
-
-        </div>
-
-        <div class="hero-content">
-
-            <span class="hero-badge">
-                Open to Remote • Hybrid • Relocation
-            </span>
-
-            <h1>
-                Java Full Stack
-                <span>Developer</span>
-            </h1>
-
-            <h2 class="typing-text">
-                Angular • Spring Boot • AWS • PostgreSQL
-            </h2>
-
-            <p>
-
-                Java Full Stack Developer with 3+ years of
-                enterprise experience building scalable
-                applications using Angular, Spring Boot,
-                Spring Batch, PostgreSQL and AWS cloud services.
-
-            </p>
-
-            <div class="hero-buttons">
-
-                <a href="#contact"
-                   class="btn primary-btn">
-
-                    Contact Me
-
-                </a>
-
-                <a href="#experience"
-                   class="btn secondary-btn">
-
-                    View Experience
-
-                </a>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- ABOUT -->
-
-    <section id="about"
-             class="section reveal">
-
-        <div class="container">
-
-            <h2 class="section-title">
-                About Me
-            </h2>
-
-            <div class="about-card">
-
-                <p>
-
-                    Java Full Stack Developer with expertise
-                    in Angular 14+, Spring Boot,
-                    Spring Batch, PostgreSQL, AWS,
-                    CI/CD and enterprise application development.
-
+    <main>
+        <section id="hero" class="hero-section reveal">
+            <div class="hero-container">
+                <div class="availability-badge-container">
+                    <span class="pulse-indicator"></span>
+                    <span class="badge-text">Available for Remote / Hybrid / Relocation Opportunities</span>
+                </div>
+                <h1 class="hero-title">
+                    Building Scalable <br>
+                    <span class="gradient-text-accent">Enterprise Architectures</span>
+                </h1>
+                <h2 class="hero-subtitle">Java Full Stack Engineer • Angular • Spring Boot • Cloud Ecosystems</h2>
+                <p class="hero-lead-paragraph">
+                    Engineered over 30+ high-impact production features across business lines. Specializing in highly performant Angular architectures, reliable Spring Batch data pipelines, robust PostgreSQL optimization, and automated AWS deployments.
                 </p>
+                <div class="hero-action-cluster">
+                    <a href="#contact" class="btn btn-premium-primary">Initiate Contact</a>
+                    <a href="#experience" class="btn btn-premium-secondary">Review Roadmap</a>
+                </div>
+            </div>
+            <div class="scroll-down-hint">
+                <span class="mouse-icon"><span class="mouse-wheel"></span></span>
+                <span class="hint-text">Scroll to Scan Portfolio</span>
+            </div>
+        </section>
 
-                <br>
-
-                <p>
-
-                    Experienced in developing responsive user
-                    interfaces, building secure REST APIs,
-                    optimizing database performance and
-                    delivering cloud-native enterprise solutions.
-
-                </p>
-
-                <div class="stats-grid">
-
-                    <div class="stat-box">
-
-                        <h3>3+</h3>
-
-                        <p>
-                            Years Experience
+        <section id="about" class="section-wrapper reveal">
+            <div class="inner-container">
+                <div class="section-header-block">
+                    <span class="section-pretitle">Overview</span>
+                    <h2 class="section-main-title">Professional Profile</h2>
+                </div>
+                <div class="glass-card profile-showcase-grid">
+                    <div class="profile-narrative-column">
+                        <p class="emphasized-text">
+                            Full Stack Engineer with 3+ years of enterprise experience developing performant web applications and processing massive datasets.
                         </p>
-
-                    </div>
-
-                    <div class="stat-box">
-
-                        <h3>30+</h3>
-
-                        <p>
-                            Features Delivered
+                        <p class="standard-body-text">
+                            I focus on clean code design, decoupling microservices, improving application performance, and maintaining continuous delivery pipelines. Experienced in designing complex user flows in Angular while writing optimized, secure backend logic in Spring Boot.
                         </p>
-
                     </div>
-
-                    <div class="stat-box">
-
-                        <h3>AWS</h3>
-
-                        <p>
-                            Cloud Services
-                        </p>
-
+                    <div class="profile-stats-subgrid">
+                        <div class="metric-glass-tile">
+                            <span class="metric-number">3+</span>
+                            <span class="metric-label">Years of Industry Impact</span>
+                        </div>
+                        <div class="metric-glass-tile">
+                            <span class="metric-number">30+</span>
+                            <span class="metric-label">Production Features Live</span>
+                        </div>
+                        <div class="metric-glass-tile">
+                            <span class="metric-number">AWS</span>
+                            <span class="metric-label">Integrated Infrastructure</span>
+                        </div>
+                        <div class="metric-glass-tile">
+                            <span class="metric-number">12<span class="metric-unit">mo</span></span>
+                            <span class="metric-label">Accelerated Promotion Cycle</span>
+                        </div>
                     </div>
-
-                    <div class="stat-box">
-
-                        <h3>Chennai</h3>
-
-                        <p>
-                            India
-                        </p>
-
-                    </div>
-
                 </div>
-
             </div>
+        </section>
 
-        </div>
-
-    </section>
-
-    <!-- SKILLS -->
-
-    <section id="skills"
-             class="section reveal">
-
-        <div class="container">
-
-            <h2 class="section-title">
-                Technical Skills
-            </h2>
-
-            <div class="skills-grid">
-
-                <div class="skill-card">
-
-                    <h3>Frontend</h3>
-
-                    <div class="badges">
-
-                        <span>Angular 14+</span>
-                        <span>TypeScript</span>
-                        <span>HTML5</span>
-                        <span>CSS3</span>
-                        <span>SCSS</span>
-                        <span>Angular Material</span>
-                        <span>RxJS</span>
-
+        <section id="skills" class="section-wrapper reveal">
+            <div class="inner-container">
+                <div class="section-header-block">
+                    <span class="section-pretitle">Capabilities</span>
+                    <h2 class="section-main-title">Technical Matrix</h2>
+                </div>
+                <div class="matrix-layout-grid">
+                    <div class="glass-card skill-matrix-card">
+                        <div class="card-header-icon-group">
+                            <h3 class="matrix-card-title">Frontend Engineering</h3>
+                        </div>
+                        <div class="skill-tags-pool">
+                            <span class="skill-pill">Angular 14+</span>
+                            <span class="skill-pill">TypeScript</span>
+                            <span class="skill-pill">RxJS Engine</span>
+                            <span class="skill-pill">Angular Material</span>
+                            <span class="skill-pill">HTML5 Canvas</span>
+                            <span class="skill-pill">SCSS Architecture</span>
+                            <span class="skill-pill">State Management</span>
+                        </div>
                     </div>
-
-                </div>
-
-                <div class="skill-card">
-
-                    <h3>Backend</h3>
-
-                    <div class="badges">
-
-                        <span>Spring Boot</span>
-                        <span>Spring Batch</span>
-                        <span>Spring Data JPA</span>
-                        <span>Hibernate</span>
-                        <span>REST APIs</span>
-
+                    <div class="glass-card skill-matrix-card">
+                        <div class="card-header-icon-group">
+                            <h3 class="matrix-card-title">Backend Architecture</h3>
+                        </div>
+                        <div class="skill-tags-pool">
+                            <span class="skill-pill">Spring Boot</span>
+                            <span class="skill-pill">Spring Batch Engine</span>
+                            <span class="skill-pill">Spring Data JPA</span>
+                            <span class="skill-pill">Hibernate ORM</span>
+                            <span class="skill-pill">RESTful API Design</span>
+                            <span class="skill-pill">Java Enterprise Edition</span>
+                            <span class="skill-pill">JWT Security Schemes</span>
+                        </div>
                     </div>
-
-                </div>
-
-                <div class="skill-card">
-
-                    <h3>Database</h3>
-
-                    <div class="badges">
-
-                        <span>PostgreSQL</span>
-                        <span>MySQL</span>
-                        <span>SQL</span>
-                        <span>JDBC</span>
-                        <span>Query Optimization</span>
-
+                    <div class="glass-card skill-matrix-card">
+                        <div class="card-header-icon-group">
+                            <h3 class="matrix-card-title">Data Storage & Tuning</h3>
+                        </div>
+                        <div class="skill-tags-pool">
+                            <span class="skill-pill">PostgreSQL Engine</span>
+                            <span class="skill-pill">MySQL Database</span>
+                            <span class="skill-pill">Relational Algebra (SQL)</span>
+                            <span class="skill-pill">JDBC Connectivity</span>
+                            <span class="skill-pill">Query Optimization</span>
+                            <span class="skill-pill">Index Fine-Tuning</span>
+                        </div>
                     </div>
-
-                </div>
-
-                <div class="skill-card">
-
-                    <h3>AWS & DevOps</h3>
-
-                    <div class="badges">
-
-                        <span>S3</span>
-                        <span>SES</span>
-                        <span>SQS</span>
-                        <span>CloudWatch</span>
-                        <span>API Gateway</span>
-                        <span>Jenkins</span>
-                        <span>Git</span>
-                        <span>Bitbucket</span>
-                        <span>CI/CD</span>
-
+                    <div class="glass-card skill-matrix-card">
+                        <div class="card-header-icon-group">
+                            <h3 class="matrix-card-title">Cloud Infrastructure & DevOps</h3>
+                        </div>
+                        <div class="skill-tags-pool">
+                            <span class="skill-pill">Amazon S3 Storage</span>
+                            <span class="skill-pill">AWS Simple Email (SES)</span>
+                            <span class="skill-pill">AWS Simple Queue (SQS)</span>
+                            <span class="skill-pill">AWS CloudWatch Analytics</span>
+                            <span class="skill-pill">AWS API Gateway</span>
+                            <span class="skill-pill">Jenkins Automation</span>
+                            <span class="skill-pill">Git / Bitbucket Pipelines</span>
+                            <span class="skill-pill">CI/CD Pipeline Design</span>
+                        </div>
                     </div>
-
                 </div>
-
             </div>
+        </section>
 
-        </div>
-
-    </section>
-
-    <!-- EXPERIENCE -->
-
-    <section id="experience"
-             class="section reveal">
-
-        <div class="container">
-
-            <h2 class="section-title">
-                Experience
-            </h2>
-
-            <div class="timeline-card">
-
-                <span class="company">
-                    Renault Nissan Technology &
-                    Business Centre India
-                </span>
-
-                <h3>
-                    Engineer – Full Stack Developer
-                </h3>
-
-                <span class="date">
-                    Oct 2024 – Present
-                </span>
-
-                <ul>
-
-                    <li>
-                        Led full stack development using Angular and Spring Boot.
-                    </li>
-
-                    <li>
-                        Built secure JWT authentication APIs.
-                    </li>
-
-                    <li>
-                        Integrated AWS S3, SES, SQS and API Gateway.
-                    </li>
-
-                    <li>
-                        Optimized PostgreSQL performance.
-                    </li>
-
-                    <li>
-                        Managed CI/CD deployment pipelines.
-                    </li>
-
-                    <li>
-                        Developed Spring Batch jobs.
-                    </li>
-
-                </ul>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- ACHIEVEMENTS -->
-
-    <section id="achievements"
-             class="section reveal">
-
-        <div class="container">
-
-            <h2 class="section-title">
-                Key Achievements
-            </h2>
-
-            <div class="achievement-grid">
-
-                <div class="achievement-card">
-
-                    <h3>
-                        Promotion
-                    </h3>
-
-                    <p>
-                        Promoted to Engineer role within 12 months.
-                    </p>
-
+        <section id="experience" class="section-wrapper reveal">
+            <div class="inner-container">
+                <div class="section-header-block">
+                    <span class="section-pretitle">Provenance</span>
+                    <h2 class="section-main-title">Professional Experience</h2>
                 </div>
-
-                <div class="achievement-card">
-
-                    <h3>
-                        30+ Features
-                    </h3>
-
-                    <p>
-                        Delivered over 30 production features.
-                    </p>
-
+                <div class="timeline-container">
+                    <div class="glass-card timeline-node-block">
+                        <div class="node-meta-row">
+                            <span class="node-company-tag">Renault Nissan Technology & Business Centre India</span>
+                            <span class="node-duration-tag">Oct 2024 – Present</span>
+                        </div>
+                        <h3 class="node-role-title">Engineer – Full Stack Developer</h3>
+                        <div class="node-divider-line"></div>
+                        <ul class="node-accomplishment-list">
+                            <li><strong>Full-Stack Architecture Ownership:</strong> Own complete features end-to-end using Angular 14+ layouts integrated with high-performance Spring Boot backends.</li>
+                            <li><strong>Cloud Infrastructure Design:</strong> Scaled cloud integrations across Amazon S3 file storage pipelines, automated notifications via SES, asynchronous task handling via SQS, and centralized route abstraction in API Gateway.</li>
+                            <li><strong>Identity & Access Management:</strong> Engineered robust security models using tokenized stateless JSON Web Token (JWT) verification profiles.</li>
+                            <li><strong>High-Throughput Batch Processing:</strong> Designed multi-step Spring Batch job flows to parse, validate, map, and import massive enterprise transactional data streams safely.</li>
+                            <li><strong>Database Performance Tuning:</strong> Optimized query patterns, analytical operations, and execution paths in PostgreSQL to reduce indexing bottlenecks.</li>
+                            <li><strong>CI/CD Pipelines:</strong> Authored structural automation routines within Jenkins pipelines to stabilize production build validation loops.</li>
+                        </ul>
+                    </div>
                 </div>
+            </div>
+        </section>
 
-                <div class="achievement-card">
-
-                    <h3>
-                        Quality Improvement
-                    </h3>
-
-                    <p>
-                        Reduced critical incidents through monitoring.
-                    </p>
-
+        <section id="achievements" class="section-wrapper reveal">
+            <div class="inner-container">
+                <div class="section-header-block">
+                    <span class="section-pretitle">Milestones</span>
+                    <h2 class="section-main-title">Key Achievements</h2>
                 </div>
-
+                <div class="achievements-layout-grid">
+                    <div class="glass-card achievement-interactive-card">
+                        <div class="achievement-icon-wrapper">🚀</div>
+                        <h3 class="achievement-card-title">Accelerated Promotion</h3>
+                        <p class="achievement-card-body">Promoted directly into the core Engineer rank within 12 months of joining for high feature ownership and operational independence.</p>
+                    </div>
+                    <div class="glass-card achievement-interactive-card">
+                        <div class="achievement-icon-wrapper">🎯</div>
+                        <h3 class="achievement-card-title">Production Stability</h3>
+                        <p class="achievement-card-body">Shipped 30+ production features while improving cloud telemetry alerts in CloudWatch to reduce system incident rates.</p>
+                    </div>
+                    <div class="glass-card achievement-interactive-card">
+                        <div class="achievement-icon-wrapper">⚡</div>
+                        <h3 class="achievement-card-title">Architecture Optimization</h3>
+                        <p class="achievement-card-body">Refactored legacy query patterns and decoupled asynchronous batch processes, drastically reducing execution window runtimes.</p>
+                    </div>
+                </div>
             </div>
+        </section>
 
-        </div>
-
-    </section>
-
-    <!-- EDUCATION -->
-
-    <section id="education"
-             class="section reveal">
-
-        <div class="container">
-
-            <h2 class="section-title">
-                Education
-            </h2>
-
-            <div class="education-card">
-
-                <h3>
-                    Bachelor of Technology
-                    in Information Technology
-                </h3>
-
-                <p>
-                    Dr. NGP Institute Of Technology,
-                    Coimbatore
-                </p>
-
-                <span>
-                    GPA : 8.38 / 10
-                </span>
-
+        <section id="education" class="section-wrapper reveal">
+            <div class="inner-container">
+                <div class="section-header-block">
+                    <span class="section-pretitle">Qualifications</span>
+                    <h2 class="section-main-title">Academic Background</h2>
+                </div>
+                <div class="glass-card education-central-card">
+                    <div class="education-header-main">
+                        <span class="institution-name-badge">Dr. NGP Institute Of Technology, Coimbatore</span>
+                        <span class="academic-grading-metric">Cumulative GPA: 8.38 / 10</span>
+                    </div>
+                    <h3 class="degree-title-string">Bachelor of Technology in Information Technology</h3>
+                    <p class="academic-meta-description">Specialized in Advanced Data Structures, Relational Database Management Systems (RDBMS), Software Architecture Blueprints, and Cloud Computation Models.</p>
+                </div>
             </div>
+        </section>
 
-        </div>
+        <section id="contact" class="section-wrapper reveal">
+            <div class="inner-container">
+                <div class="section-header-block">
+                    <span class="section-pretitle">Acquisition</span>
+                    <h2 class="section-main-title">Let's Connect</h2>
+                </div>
+                <div class="recruiter-hub-layout">
+                    <div class="glass-card recruiter-action-panel">
+                        <h3 class="panel-heading">Direct Transmission</h3>
+                        <p class="panel-subheading">Click to initiate an inquiry or copy communication paths directly to your clipboard.</p>
+                        
+                        <div class="communications-list">
+                            <div class="comms-item-row" data-copy-target="manisharaj2865@gmail.com">
+                                <span class="comms-icon">📧</span>
+                                <div class="comms-details">
+                                    <span class="comms-label">Corporate Email</span>
+                                    <span class="comms-value">manisharaj2865@gmail.com</span>
+                                </div>
+                                <button class="copy-action-trigger" title="Copy Email">Copy</button>
+                            </div>
+                            
+                            <div class="comms-item-row" data-copy-target="+919790372865">
+                                <span class="comms-icon">📱</span>
+                                <div class="comms-details">
+                                    <span class="comms-label">Mobile Hotline</span>
+                                    <span class="comms-value">+91 9790372865</span>
+                                </div>
+                                <button class="copy-action-trigger" title="Copy Number">Copy</button>
+                            </div>
+                            
+                            <div class="comms-item-row">
+                                <span class="comms-icon">📍</span>
+                                <div class="comms-details">
+                                    <span class="comms-label">Geographic Location</span>
+                                    <span class="comms-value">Chennai, Tamil Nadu, India</span>
+                                </div>
+                                <span class="geoloc-badge">Open to Relocating</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
-    </section>
-
-    <!-- CONTACT -->
-
-    <footer id="contact">
-
-        <h2>
-            Let's Connect
-        </h2>
-
-        <p>
-            📧 manisharaj2865@gmail.com
-        </p>
-
-        <p>
-            📱 +91 9790372865
-        </p>
-
-        <p>
-            📍 Chennai, India
-        </p>
-
-        <div class="footer-line"></div>
-
-        <p>
-            © 2026 Manisha E | Java Full Stack Developer
-        </p>
-
+    <footer class="system-footer">
+        <div class="footer-divider-glow"></div>
+        <p class="footer-copyright-notice">© 2026 Manisha E. All Rights Architecture Reserved.</p>
+        <p class="footer-engine-telemetry">Telemetry Engine Status: <span class="telemetry-ok">Fully Synchronized</span></p>
     </footer>
 
+    <button id="scrollTopBtn" aria-label="Scroll Back to Top">↑</button>
+
     <script src="script.js"></script>
-
 </body>
-
 </html>
