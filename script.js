@@ -173,7 +173,7 @@ function evaluateChronoTheme(visualBadge) {
     }
 
     // Atomic Class Mutations
-    targetedTarget.remove("theme-dawn", "theme-day", "theme-dusk", "theme-night");
+    targetedTarget.classList.remove("theme-dawn", "theme-day", "theme-dusk", "theme-night");
     targetedTarget.classList.add(selectedTheme);
     
     if (visualBadge) {
