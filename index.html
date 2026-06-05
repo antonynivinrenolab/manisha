@@ -3,293 +3,312 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manisha E | Senior Full Stack Engineer</title>
+    <title>Manisha E | Java Full Stack Developer</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="theme-morning" id="top">
 
-    <canvas id="interactive-ambient-canvas"></canvas>
+    <!-- Stars Container (for night theme) -->
+    <div class="stars-container" id="starsContainer"></div>
 
-    <div id="scroll-progress"></div>
-
-    <header>
-        <nav class="navbar">
-            <div class="logo">
-                <span class="logo-text">Manisha<span class="logo-dot">.E</span></span>
-                <span id="current-theme-badge" class="theme-status-indicator">Initializing Engine...</span>
-            </div>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#hero" class="nav-logo">Manisha E</a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span class="hamburger"></span>
+            </button>
             <ul class="nav-links" id="navLinks">
-                <li><a href="#hero" class="nav-item">Home</a></li>
-                <li><a href="#about" class="nav-item">About</a></li>
-                <li><a href="#skills" class="nav-item">Skills</a></li>
-                <li><a href="#experience" class="nav-item">Experience</a></li>
-                <li><a href="#achievements" class="nav-item">Achievements</a></li>
-                <li><a href="#education" class="nav-item">Education</a></li>
-                <li><a href="#contact" class="nav-item project-talk-btn">Let's Talk</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#experience" class="nav-link">Experience</a></li>
+                <li><a href="#education" class="nav-link">Education</a></li>
+                <li><a href="#certifications" class="nav-link">Certifications</a></li>
+                <li><a href="#achievements" class="nav-link">Achievements</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
             </ul>
-            <div class="menu-btn" id="menuBtn">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
-        </nav>
-    </header>
+        </div>
+    </nav>
 
-    <main>
-        <section id="hero" class="hero-section reveal">
-            <div class="hero-container">
-                <div class="availability-badge-container">
-                    <span class="pulse-indicator"></span>
-                    <span class="badge-text">Available for Remote / Hybrid / Relocation Opportunities</span>
-                </div>
-                <h1 class="hero-title">
-                    Building Scalable <br>
-                    <span class="gradient-text-accent">Enterprise Architectures</span>
-                </h1>
-                <h2 class="hero-subtitle">Java Full Stack Engineer • Angular • Spring Boot • Cloud Ecosystems</h2>
-                <p class="hero-lead-paragraph">
-                    Engineered over 30+ high-impact production features across business lines. Specializing in highly performant Angular architectures, reliable Spring Batch data pipelines, robust PostgreSQL optimization, and automated AWS deployments.
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-sky">
+            <div class="celestial-body" id="celestialBody">
+                <div class="celestial-glow"></div>
+            </div>
+            <!-- Sun rays (visible during day themes) -->
+            <div class="sun-rays" id="sunRays"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="time-icon" id="timeIcon">🌅</span>
+                <span class="time-greeting" id="timeGreeting">Good Morning</span>
+            </div>
+            <h1 class="hero-name">Manisha E</h1>
+            <h2 class="hero-title">Java Full Stack Developer</h2>
+            <p class="hero-subtitle">
+                Building scalable enterprise applications with Spring Boot, Angular 14+, and AWS
+            </p>
+            <div class="hero-tags">
+                <span class="hero-tag">Remote</span>
+                <span class="hero-tag">Relocate</span>
+                <span class="hero-tag">Hybrid</span>
+                <span class="hero-tag">On-Site</span>
+            </div>
+            <div class="hero-cta">
+                <a href="#contact" class="btn btn-primary">Get In Touch</a>
+                <a href="#experience" class="btn btn-secondary">View Experience</a>
+            </div>
+            <div class="hero-location">
+                <span class="location-icon">📍</span> Chennai, India
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span class="scroll-arrow">⌄</span>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section about" id="about">
+        <div class="section-container">
+            <h2 class="section-title">Professional Summary</h2>
+            <div class="about-card card">
+                <div class="about-icon">💻</div>
+                <p class="about-text">
+                    Java Full Stack Developer with <strong>3+ years</strong> of enterprise experience specializing in
+                    <strong>Angular 14+, Spring Boot, Spring Batch</strong>, and <strong>AWS services</strong> including
+                    S3, SES, SQS, and API Gateway. Experienced in frontend development, backend REST APIs,
+                    PostgreSQL optimization, Agile delivery, CI/CD deployments, and production support.
                 </p>
-                <div class="hero-action-cluster">
-                    <a href="#contact" class="btn btn-premium-primary">Initiate Contact</a>
-                    <a href="#experience" class="btn btn-premium-secondary">Review Roadmap</a>
+            </div>
+            <div class="about-highlights">
+                <div class="highlight-item card">
+                    <span class="highlight-number">3+</span>
+                    <span class="highlight-label">Years Experience</span>
+                </div>
+                <div class="highlight-item card">
+                    <span class="highlight-number">30+</span>
+                    <span class="highlight-label">Production Features</span>
+                </div>
+                <div class="highlight-item card">
+                    <span class="highlight-number">AWS</span>
+                    <span class="highlight-label">Cloud Certified</span>
                 </div>
             </div>
-            <div class="scroll-down-hint">
-                <span class="mouse-icon"><span class="mouse-wheel"></span></span>
-                <span class="hint-text">Scroll to Scan Portfolio</span>
-            </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="about" class="section-wrapper reveal">
-            <div class="inner-container">
-                <div class="section-header-block">
-                    <span class="section-pretitle">Overview</span>
-                    <h2 class="section-main-title">Professional Profile</h2>
-                </div>
-                <div class="glass-card profile-showcase-grid">
-                    <div class="profile-narrative-column">
-                        <p class="emphasized-text">
-                            Full Stack Engineer with 3+ years of enterprise experience developing performant web applications and processing massive datasets.
-                        </p>
-                        <p class="standard-body-text">
-                            I focus on clean code design, decoupling microservices, improving application performance, and maintaining continuous delivery pipelines. Experienced in designing complex user flows in Angular while writing optimized, secure backend logic in Spring Boot.
-                        </p>
-                    </div>
-                    <div class="profile-stats-subgrid">
-                        <div class="metric-glass-tile">
-                            <span class="metric-number">3+</span>
-                            <span class="metric-label">Years of Industry Impact</span>
-                        </div>
-                        <div class="metric-glass-tile">
-                            <span class="metric-number">30+</span>
-                            <span class="metric-label">Production Features Live</span>
-                        </div>
-                        <div class="metric-glass-tile">
-                            <span class="metric-number">AWS</span>
-                            <span class="metric-label">Integrated Infrastructure</span>
-                        </div>
-                        <div class="metric-glass-tile">
-                            <span class="metric-number">12<span class="metric-unit">mo</span></span>
-                            <span class="metric-label">Accelerated Promotion Cycle</span>
-                        </div>
+    <!-- Skills Section -->
+    <section class="section skills" id="skills">
+        <div class="section-container">
+            <h2 class="section-title">Technical Skills</h2>
+            <div class="skills-grid">
+                <!-- Frontend -->
+                <div class="skill-category card">
+                    <h3 class="skill-cat-title">🎨 Frontend</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Angular 14+</span>
+                        <span class="skill-tag">TypeScript</span>
+                        <span class="skill-tag">HTML5</span>
+                        <span class="skill-tag">CSS3</span>
+                        <span class="skill-tag">SCSS</span>
+                        <span class="skill-tag">Angular Material</span>
+                        <span class="skill-tag">RxJS</span>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <section id="skills" class="section-wrapper reveal">
-            <div class="inner-container">
-                <div class="section-header-block">
-                    <span class="section-pretitle">Capabilities</span>
-                    <h2 class="section-main-title">Technical Matrix</h2>
+                <!-- Backend -->
+                <div class="skill-category card">
+                    <h3 class="skill-cat-title">⚙️ Backend</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Spring Boot</span>
+                        <span class="skill-tag">Spring Batch</span>
+                        <span class="skill-tag">Spring Data JPA</span>
+                        <span class="skill-tag">Hibernate</span>
+                        <span class="skill-tag">RESTful APIs</span>
+                    </div>
                 </div>
-                <div class="matrix-layout-grid">
-                    <div class="glass-card skill-matrix-card">
-                        <div class="card-header-icon-group">
-                            <h3 class="matrix-card-title">Frontend Engineering</h3>
-                        </div>
-                        <div class="skill-tags-pool">
-                            <span class="skill-pill">Angular 14+</span>
-                            <span class="skill-pill">TypeScript</span>
-                            <span class="skill-pill">RxJS Engine</span>
-                            <span class="skill-pill">Angular Material</span>
-                            <span class="skill-pill">HTML5 Canvas</span>
-                            <span class="skill-pill">SCSS Architecture</span>
-                            <span class="skill-pill">State Management</span>
-                        </div>
+                <!-- Database -->
+                <div class="skill-category card">
+                    <h3 class="skill-cat-title">🗄️ Database</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">PostgreSQL</span>
+                        <span class="skill-tag">MySQL</span>
+                        <span class="skill-tag">SQL</span>
+                        <span class="skill-tag">Query Optimization</span>
+                        <span class="skill-tag">JDBC</span>
                     </div>
-                    <div class="glass-card skill-matrix-card">
-                        <div class="card-header-icon-group">
-                            <h3 class="matrix-card-title">Backend Architecture</h3>
-                        </div>
-                        <div class="skill-tags-pool">
-                            <span class="skill-pill">Spring Boot</span>
-                            <span class="skill-pill">Spring Batch Engine</span>
-                            <span class="skill-pill">Spring Data JPA</span>
-                            <span class="skill-pill">Hibernate ORM</span>
-                            <span class="skill-pill">RESTful API Design</span>
-                            <span class="skill-pill">Java Enterprise Edition</span>
-                            <span class="skill-pill">JWT Security Schemes</span>
-                        </div>
+                </div>
+                <!-- Cloud & AWS -->
+                <div class="skill-category card">
+                    <h3 class="skill-cat-title">☁️ Cloud & AWS</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">S3</span>
+                        <span class="skill-tag">SES</span>
+                        <span class="skill-tag">SQS</span>
+                        <span class="skill-tag">CloudWatch</span>
+                        <span class="skill-tag">API Gateway</span>
                     </div>
-                    <div class="glass-card skill-matrix-card">
-                        <div class="card-header-icon-group">
-                            <h3 class="matrix-card-title">Data Storage & Tuning</h3>
-                        </div>
-                        <div class="skill-tags-pool">
-                            <span class="skill-pill">PostgreSQL Engine</span>
-                            <span class="skill-pill">MySQL Database</span>
-                            <span class="skill-pill">Relational Algebra (SQL)</span>
-                            <span class="skill-pill">JDBC Connectivity</span>
-                            <span class="skill-pill">Query Optimization</span>
-                            <span class="skill-pill">Index Fine-Tuning</span>
-                        </div>
+                </div>
+                <!-- DevOps -->
+                <div class="skill-category card">
+                    <h3 class="skill-cat-title">🔧 DevOps</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Jenkins</span>
+                        <span class="skill-tag">Bitbucket</span>
+                        <span class="skill-tag">Git</span>
+                        <span class="skill-tag">GitHub</span>
+                        <span class="skill-tag">CI/CD Pipelines</span>
                     </div>
-                    <div class="glass-card skill-matrix-card">
-                        <div class="card-header-icon-group">
-                            <h3 class="matrix-card-title">Cloud Infrastructure & DevOps</h3>
-                        </div>
-                        <div class="skill-tags-pool">
-                            <span class="skill-pill">Amazon S3 Storage</span>
-                            <span class="skill-pill">AWS Simple Email (SES)</span>
-                            <span class="skill-pill">AWS Simple Queue (SQS)</span>
-                            <span class="skill-pill">AWS CloudWatch Analytics</span>
-                            <span class="skill-pill">AWS API Gateway</span>
-                            <span class="skill-pill">Jenkins Automation</span>
-                            <span class="skill-pill">Git / Bitbucket Pipelines</span>
-                            <span class="skill-pill">CI/CD Pipeline Design</span>
-                        </div>
+                </div>
+                <!-- Tools & Methodologies -->
+                <div class="skill-category card">
+                    <h3 class="skill-cat-title">🛠️ Tools & Methods</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Swagger/OpenAPI</span>
+                        <span class="skill-tag">Postman</span>
+                        <span class="skill-tag">Agile</span>
+                        <span class="skill-tag">Scrum</span>
+                        <span class="skill-tag">Sprint Planning</span>
+                        <span class="skill-tag">Code Reviews</span>
+                        <span class="skill-tag">Production Support</span>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="experience" class="section-wrapper reveal">
-            <div class="inner-container">
-                <div class="section-header-block">
-                    <span class="section-pretitle">Provenance</span>
-                    <h2 class="section-main-title">Professional Experience</h2>
-                </div>
-                <div class="timeline-container">
-                    <div class="glass-card timeline-node-block">
-                        <div class="node-meta-row">
-                            <span class="node-company-tag">Renault Nissan Technology & Business Centre India</span>
-                            <span class="node-duration-tag">Oct 2024 – Present</span>
+    <!-- Experience Section -->
+    <section class="section experience" id="experience">
+        <div class="section-container">
+            <h2 class="section-title">Professional Experience</h2>
+            <div class="timeline">
+                <div class="timeline-line"></div>
+                <div class="timeline-item card">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h3 class="timeline-role">Engineer – Full Stack Developer</h3>
+                            <span class="timeline-date">Oct 2024 – Present</span>
                         </div>
-                        <h3 class="node-role-title">Engineer – Full Stack Developer</h3>
-                        <div class="node-divider-line"></div>
-                        <ul class="node-accomplishment-list">
-                            <li><strong>Full-Stack Architecture Ownership:</strong> Own complete features end-to-end using Angular 14+ layouts integrated with high-performance Spring Boot backends.</li>
-                            <li><strong>Cloud Infrastructure Design:</strong> Scaled cloud integrations across Amazon S3 file storage pipelines, automated notifications via SES, asynchronous task handling via SQS, and centralized route abstraction in API Gateway.</li>
-                            <li><strong>Identity & Access Management:</strong> Engineered robust security models using tokenized stateless JSON Web Token (JWT) verification profiles.</li>
-                            <li><strong>High-Throughput Batch Processing:</strong> Designed multi-step Spring Batch job flows to parse, validate, map, and import massive enterprise transactional data streams safely.</li>
-                            <li><strong>Database Performance Tuning:</strong> Optimized query patterns, analytical operations, and execution paths in PostgreSQL to reduce indexing bottlenecks.</li>
-                            <li><strong>CI/CD Pipelines:</strong> Authored structural automation routines within Jenkins pipelines to stabilize production build validation loops.</li>
+                        <h4 class="timeline-company">Renault Nissan Technology & Business Centre India (RNTBCI), Chennai</h4>
+                        <ul class="timeline-details">
+                            <li>Led full stack development on enterprise applications using <strong>Angular</strong> frontend and <strong>Spring Boot</strong> backend.</li>
+                            <li>Developed responsive Angular components with <strong>Angular Material</strong> and <strong>RxJS</strong> state management.</li>
+                            <li>Built RESTful APIs with <strong>JWT authentication</strong>, exception handling, and Swagger documentation.</li>
+                            <li>Integrated <strong>AWS services</strong> such as S3, SES, SQS, and API Gateway.</li>
+                            <li>Optimized <strong>PostgreSQL</strong> queries and improved application performance.</li>
+                            <li>Managed <strong>CI/CD deployments</strong> using Jenkins pipelines and automated testing.</li>
+                            <li>Implemented file upload modules for <strong>CSV/TSV/Excel</strong> processing and validation.</li>
+                            <li>Developed <strong>Spring Batch</strong> jobs for asynchronous processing and data synchronization.</li>
                         </ul>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="achievements" class="section-wrapper reveal">
-            <div class="inner-container">
-                <div class="section-header-block">
-                    <span class="section-pretitle">Milestones</span>
-                    <h2 class="section-main-title">Key Achievements</h2>
-                </div>
-                <div class="achievements-layout-grid">
-                    <div class="glass-card achievement-interactive-card">
-                        <div class="achievement-icon-wrapper">🚀</div>
-                        <h3 class="achievement-card-title">Accelerated Promotion</h3>
-                        <p class="achievement-card-body">Promoted directly into the core Engineer rank within 12 months of joining for high feature ownership and operational independence.</p>
-                    </div>
-                    <div class="glass-card achievement-interactive-card">
-                        <div class="achievement-icon-wrapper">🎯</div>
-                        <h3 class="achievement-card-title">Production Stability</h3>
-                        <p class="achievement-card-body">Shipped 30+ production features while improving cloud telemetry alerts in CloudWatch to reduce system incident rates.</p>
-                    </div>
-                    <div class="glass-card achievement-interactive-card">
-                        <div class="achievement-icon-wrapper">⚡</div>
-                        <h3 class="achievement-card-title">Architecture Optimization</h3>
-                        <p class="achievement-card-body">Refactored legacy query patterns and decoupled asynchronous batch processes, drastically reducing execution window runtimes.</p>
+    <!-- Education Section -->
+    <section class="section education" id="education">
+        <div class="section-container">
+            <h2 class="section-title">Education</h2>
+            <div class="education-card card">
+                <div class="education-icon">🎓</div>
+                <div class="education-content">
+                    <h3>Bachelor of Technology in Information Technology</h3>
+                    <h4>Dr. NGP Institute Of Technology, Coimbatore</h4>
+                    <div class="education-meta">
+                        <span class="edu-date">Jan 2019 – Jan 2023</span>
+                        <span class="edu-gpa">GPA: <strong>8.38 / 10</strong></span>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="education" class="section-wrapper reveal">
-            <div class="inner-container">
-                <div class="section-header-block">
-                    <span class="section-pretitle">Qualifications</span>
-                    <h2 class="section-main-title">Academic Background</h2>
+    <!-- Certifications Section -->
+    <section class="section certifications" id="certifications">
+        <div class="section-container">
+            <h2 class="section-title">Certifications</h2>
+            <div class="certs-grid">
+                <div class="cert-card card">
+                    <span class="cert-icon">☁️</span>
+                    <h4>AWS Certified Cloud Practitioner</h4>
+                    <span class="cert-status in-progress">In Progress</span>
                 </div>
-                <div class="glass-card education-central-card">
-                    <div class="education-header-main">
-                        <span class="institution-name-badge">Dr. NGP Institute Of Technology, Coimbatore</span>
-                        <span class="academic-grading-metric">Cumulative GPA: 8.38 / 10</span>
-                    </div>
-                    <h3 class="degree-title-string">Bachelor of Technology in Information Technology</h3>
-                    <p class="academic-meta-description">Specialized in Advanced Data Structures, Relational Database Management Systems (RDBMS), Software Architecture Blueprints, and Cloud Computation Models.</p>
+                <div class="cert-card card">
+                    <span class="cert-icon">🌐</span>
+                    <h4>Certificate Course in Web Application Development</h4>
+                    <span class="cert-issuer">Internshala</span>
+                </div>
+                <div class="cert-card card">
+                    <span class="cert-icon">📄</span>
+                    <h4>Frontend Development – HTML</h4>
+                    <span class="cert-issuer">Great Learning</span>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="contact" class="section-wrapper reveal">
-            <div class="inner-container">
-                <div class="section-header-block">
-                    <span class="section-pretitle">Acquisition</span>
-                    <h2 class="section-main-title">Let's Connect</h2>
+    <!-- Achievements Section -->
+    <section class="section achievements" id="achievements">
+        <div class="section-container">
+            <h2 class="section-title">Key Achievements</h2>
+            <div class="achievements-grid">
+                <div class="achievement-card card">
+                    <span class="achievement-icon">🚀</span>
+                    <p>Promoted to <strong>Engineer role within 12 months</strong> for outstanding technical performance.</p>
                 </div>
-                <div class="recruiter-hub-layout">
-                    <div class="glass-card recruiter-action-panel">
-                        <h3 class="panel-heading">Direct Transmission</h3>
-                        <p class="panel-subheading">Click to initiate an inquiry or copy communication paths directly to your clipboard.</p>
-                        
-                        <div class="communications-list">
-                            <div class="comms-item-row" data-copy-target="manisharaj2865@gmail.com">
-                                <span class="comms-icon">📧</span>
-                                <div class="comms-details">
-                                    <span class="comms-label">Corporate Email</span>
-                                    <span class="comms-value">manisharaj2865@gmail.com</span>
-                                </div>
-                                <button class="copy-action-trigger" title="Copy Email">Copy</button>
-                            </div>
-                            
-                            <div class="comms-item-row" data-copy-target="+919790372865">
-                                <span class="comms-icon">📱</span>
-                                <div class="comms-details">
-                                    <span class="comms-label">Mobile Hotline</span>
-                                    <span class="comms-value">+91 9790372865</span>
-                                </div>
-                                <button class="copy-action-trigger" title="Copy Number">Copy</button>
-                            </div>
-                            
-                            <div class="comms-item-row">
-                                <span class="comms-icon">📍</span>
-                                <div class="comms-details">
-                                    <span class="comms-label">Geographic Location</span>
-                                    <span class="comms-value">Chennai, Tamil Nadu, India</span>
-                                </div>
-                                <span class="geoloc-badge">Open to Relocating</span>
-                            </div>
-                        </div>
+                <div class="achievement-card card">
+                    <span class="achievement-icon">✨</span>
+                    <p>Delivered <strong>30+ production features</strong> for enterprise automotive workflows.</p>
+                </div>
+                <div class="achievement-card card">
+                    <span class="achievement-icon">🛡️</span>
+                    <p>Reduced critical incidents through <strong>monitoring and quality improvements</strong>.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section contact" id="contact">
+        <div class="section-container">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-card card">
+                <div class="contact-grid">
+                    <a href="mailto:manisharaj2865@gmail.com" class="contact-item">
+                        <span class="contact-icon">✉️</span>
+                        <span class="contact-label">Email</span>
+                        <span class="contact-value">manisharaj2865@gmail.com</span>
+                    </a>
+                    <a href="tel:+919790372865" class="contact-item">
+                        <span class="contact-icon">📞</span>
+                        <span class="contact-label">Phone</span>
+                        <span class="contact-value">+91-9790372865</span>
+                    </a>
+                    <div class="contact-item">
+                        <span class="contact-icon">📍</span>
+                        <span class="contact-label">Location</span>
+                        <span class="contact-value">Chennai, India</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">🌍</span>
+                        <span class="contact-label">Open To</span>
+                        <span class="contact-value">Remote · Relocate · Hybrid · On-Site</span>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
 
-    <footer class="system-footer">
-        <div class="footer-divider-glow"></div>
-        <p class="footer-copyright-notice">© 2026 Manisha E. All Rights Architecture Reserved.</p>
-        <p class="footer-engine-telemetry">Telemetry Engine Status: <span class="telemetry-ok">Fully Synchronized</span></p>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p class="footer-text">© <span id="currentYear">2026</span> Manisha E — Java Full Stack Developer</p>
+            <p class="footer-tagline">Built with 💙 from Chennai, India</p>
+            <a href="#top" class="back-to-top" aria-label="Back to top">↑</a>
+        </div>
     </footer>
-
-    <button id="scrollTopBtn" aria-label="Scroll Back to Top">↑</button>
 
     <script src="script.js"></script>
 </body>
