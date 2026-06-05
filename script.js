@@ -1,336 +1,290 @@
-// ==========================================================================
-// CORE SYSTEM TELEMETRY AND ENGINE INITIALIZATION
-// ==========================================================================
+(function () {
+    'use strict';
 
-document.addEventListener("DOMContentLoaded", () => {
-    
-    // Core Component Registry
-    const menuBtn = document.getElementById("menuBtn");
-    const navLinks = document.getElementById("navLinks");
-    const navbar = document.querySelector(".navbar");
-    const scrollTopBtn = document.getElementById("scrollTopBtn");
-    const scrollProgress = document.getElementById("scroll-progress");
-    const themeBadge = document.getElementById("current-theme-badge");
+    // ============================================
+    // TIME-BASED THEME DETECTION
+    // ============================================
+    function getTimeTheme() {
+        const hour = new Date().getHours();
 
-    // Initialize Chrono-Theming Engine
-    evaluateChronoTheme(themeBadge);
-    // Poll the timing signature engine every 60 seconds for absolute theme consistency
-    setInterval(() => evaluateChronoTheme(themeBadge), 60000);
-
-    // Initialize 3D Particle Constellation Engine
-    initializeAmbientPhysicsEngine();
-
-    // ==========================================================================
-    // RESPONSIVE MENU AND NAVIGATION INTERACTION CONTROLLERS
-    // ==========================================================================
-    if (menuBtn && navLinks) {
-        menuBtn.addEventListener("click", () => {
-            menuBtn.classList.toggle("open-menu-state");
-            navLinks.classList.toggle("open-menu-state");
-        });
+        if (hour >= 5 && hour < 12) {
+            return 'morning';
+        } else if (hour >= 12 && hour < 17) {
+            return 'afternoon';
+        } else if (hour >= 17 && hour < 20) {
+            return 'evening';
+        } else {
+            return 'night';
+        }
     }
 
-    // Capture standard anchor navigation requests to gracefully dismiss responsive menus
-    document.querySelectorAll(".nav-links a").forEach(anchor => {
-        anchor.addEventListener("click", () => {
-            if (menuBtn && navLinks) {
-                menuBtn.classList.remove("open-menu-state");
-                navLinks.classList.remove("open-menu-state");
-            }
+    function getTimeGreeting() {
+        const hour = new Date().getHours();
+        if (hour >= 5 && hour < 12) return { greeting: 'Good Morning', icon: '🌅' };
+        if (hour >= 12 && hour < 17) return { greeting: 'Good Afternoon', icon: '☀️' };
+        if (hour >= 17 && hour < 20) return { greeting: 'Good Evening', icon: '🌇' };
+        return { greeting: 'Good Night', icon: '🌙' };
+    }
+
+    function applyTheme() {
+        const theme = getTimeTheme();
+        const { greeting, icon } = getTimeGreeting();
+
+        // Remove all theme classes
+        document.body.classList.remove('theme-morning', 'theme-afternoon', 'theme-evening', 'theme-night');
+        // Add current theme class
+        document.body.classList.add('theme-' + theme);
+
+        // Update greeting
+        const greetingEl = document.getElementById('timeGreeting');
+        const iconEl = document.getElementById('timeIcon');
+        if (greetingEl) greetingEl.textContent = greeting;
+        if (iconEl) iconEl.textContent = icon;
+
+        // Manage stars
+        manageStars(theme);
+
+        // Store current theme
+        document.body.dataset.currentTheme = theme;
+    }
+
+    // ============================================
+    // STARS GENERATION (Night Theme)
+    // ============================================
+    let starsGenerated = false;
+    const starsContainer = document.getElementById('starsContainer');
+
+    function generateStars() {
+        if (starsGenerated) return;
+        starsContainer.innerHTML = '';
+        const fragment = document.createDocumentFragment();
+        const starCount = 120;
+
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star-dot');
+            const size = Math.random() * 3 + 1;
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.setProperty('--twinkle-duration', (Math.random() * 3 + 2) + 's');
+            star.style.setProperty('--twinkle-delay', (Math.random() * 4) + 's');
+            star.style.opacity = Math.random() * 0.6 + 0.2;
+            fragment.appendChild(star);
+        }
+
+        starsContainer.appendChild(fragment);
+        starsGenerated = true;
+    }
+
+    function clearStars() {
+        starsContainer.innerHTML = '';
+        starsGenerated = false;
+    }
+
+    function manageStars(theme) {
+        if (theme === 'night') {
+            generateStars();
+            starsContainer.style.opacity = '1';
+        } else {
+            starsContainer.style.opacity = '0';
+            // Clear after transition
+            setTimeout(() => {
+                if (document.body.dataset.currentTheme !== 'night') {
+                    clearStars();
+                }
+            }, 1000);
+        }
+    }
+
+    // ============================================
+    // MOBILE NAVIGATION TOGGLE
+    // ============================================
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    const allNavLinks = document.querySelectorAll('.nav-link');
+
+    function closeNav() {
+        navLinks.classList.remove('open');
+        navToggle.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    function openNav() {
+        navLinks.classList.add('open');
+        navToggle.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    navToggle.addEventListener('click', function () {
+        if (navLinks.classList.contains('open')) {
+            closeNav();
+        } else {
+            openNav();
+        }
+    });
+
+    // Close nav when a link is clicked
+    allNavLinks.forEach(function (link) {
+        link.addEventListener('click', function () {
+            closeNav();
         });
     });
 
-    // ==========================================================================
-    // SCROLL TELEMETRY ENGINE (ACTIVE LINKS, PROGRESS, FOOTER INTERACTION)
-    // ==========================================================================
-    const trackingSections = document.querySelectorAll("section[id]");
-    const targetNavItems = document.querySelectorAll(".nav-links a");
-
-    function executeScrollTelemetryPipeline() {
-        const currentScrollY = window.scrollY;
-
-        // 1. Navbar Glass Density Shifting
-        if (currentScrollY > 50) {
-            navbar.classList.add("scrolled-mode");
-        } else {
-            navbar.classList.remove("scrolled-mode");
+    // Close nav when clicking outside
+    document.addEventListener('click', function (e) {
+        if (navLinks.classList.contains('open') &&
+            !navLinks.contains(e.target) &&
+            !navToggle.contains(e.target)) {
+            closeNav();
         }
+    });
 
-        // 2. Floating Action Button Viewport Realization
-        if (currentScrollY > 600) {
-            scrollTopBtn.classList.add("reveal-active-btn");
-        } else {
-            scrollTopBtn.classList.remove("reveal-active-btn");
+    // Close nav on Escape key
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && navLinks.classList.contains('open')) {
+            closeNav();
         }
+    });
 
-        // 3. Real-time Viewport Progress Computation
-        const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        if (docHeight > 0) {
-            const calculatedProgress = (currentScrollY / docHeight) * 100;
-            scrollProgress.style.width = `${calculatedProgress}%`;
-        }
+    // ============================================
+    // ACTIVE NAV LINK HIGHLIGHT ON SCROLL
+    // ============================================
+    const sections = document.querySelectorAll('.section[id], .hero[id]');
+    const navLinkElements = document.querySelectorAll('.nav-link');
 
-        // 4. Track Element Intersections to Update Navigation Bar Highlights
-        let focusSectionId = "";
-        trackingSections.forEach(section => {
-            const boundaryOffsetTop = section.offsetTop - 160;
-            const contextHeight = section.offsetHeight;
-            if (currentScrollY >= boundaryOffsetTop && currentScrollY < boundaryOffsetTop + contextHeight) {
-                focusSectionId = section.getAttribute("id");
+    function updateActiveNavLink() {
+        let currentSectionId = '';
+        const scrollPos = window.scrollY + 100;
+
+        sections.forEach(function (section) {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+            if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                currentSectionId = section.getAttribute('id');
             }
         });
 
-        targetNavItems.forEach(item => {
-            item.classList.remove("active-link-indicator");
-            const structuralHref = item.getAttribute("href");
-            if (structuralHref === `#${focusSectionId}`) {
-                item.classList.add("active-link-indicator");
+        navLinkElements.forEach(function (link) {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + currentSectionId) {
+                link.classList.add('active');
             }
         });
     }
 
-    window.addEventListener("scroll", executeScrollTelemetryPipeline, { passive: true });
-    executeScrollTelemetryPipeline(); // Execution pass to capture entry metrics
+    // ============================================
+    // FADE-IN ON SCROLL (Intersection Observer)
+    // ============================================
+    const fadeElements = document.querySelectorAll(
+        '.card, .section-title, .about-text, .timeline-item, .achievement-card, .cert-card, .contact-item, .highlight-item, .education-card'
+    );
 
-    if (scrollTopBtn) {
-        scrollTopBtn.addEventListener("click", () => {
-            window.scrollTo({ top: 0, behavior: "smooth" });
-        });
-    }
+    // Add fade-in class to elements
+    fadeElements.forEach(function (el) {
+        el.classList.add('fade-in');
+    });
 
-    // ==========================================================================
-    // SYNCHRONIZED INTERSECTION OBSERVER FOR TRANSITION REVEALS
-    // ==========================================================================
-    const revealElements = document.querySelectorAll(".reveal");
-    const sequentialCardClusters = document.querySelectorAll(".skill-matrix-card, .achievement-interactive-card, .metric-glass-tile");
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px 0px -40px 0px',
+        threshold: 0.1,
+    };
 
-    const layoutRevealObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
+    const observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
             if (entry.isIntersecting) {
-                entry.target.classList.add("synchronized-reveal-active");
+                entry.target.classList.add('visible');
+                // Optional: unobserve after becoming visible
+                // observer.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.1, rootMargin: "0px 0px -40px 0px" });
+    }, observerOptions);
 
-    revealElements.forEach(element => layoutRevealObserver.observe(element));
-
-    // Stagger animation delays automatically across modular grid cards
-    sequentialCardClusters.forEach((card, cursorIndex) => {
-        card.style.transition = "all 0.6s cubic-bezier(0.16, 1, 0.3, 1)";
-        card.style.transitionDelay = `${(cursorIndex % 4) * 75}ms`;
+    fadeElements.forEach(function (el) {
+        observer.observe(el);
     });
 
-    // ==========================================================================
-    // RECRUITER ACQUISITION CLIPBOARD SUB-SYSTEM
-    // ==========================================================================
-    const copyTriggers = document.querySelectorAll("[data-copy-target]");
-    copyTriggers.forEach(trigger => {
-        trigger.addEventListener("click", () => {
-            const extractionValue = trigger.getAttribute("data-copy-target");
-            const visualLabel = trigger.querySelector(".copy-action-trigger");
-            const priorLabelString = visualLabel.textContent;
-
-            navigator.clipboard.writeText(extractionValue).then(() => {
-                visualLabel.textContent = "Copied!";
-                visualLabel.style.background = "#00ff66";
-                visualLabel.style.color = "#000000";
-
-                setTimeout(() => {
-                    visualLabel.textContent = priorLabelString;
-                    visualLabel.style.background = "";
-                    visualLabel.style.color = "";
-                }, 2000);
-            }).catch(err => {
-                console.error("Clipboard ingestion pipeline failure: ", err);
-            });
+    // ============================================
+    // SMOOTH SCROLL FOR BACK-TO-TOP
+    // ============================================
+    const backToTop = document.querySelector('.back-to-top');
+    if (backToTop) {
+        backToTop.addEventListener('click', function (e) {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            closeNav();
         });
-    });
-});
-
-// ==========================================================================
-// CHRONO-THEME EVALUATION PIPELINE
-// ==========================================================================
-function evaluateChronoTheme(visualBadge) {
-    const structuralDate = new Date();
-    const metricHour = structuralDate.getHours();
-    const targetedTarget = document.documentElement;
-    let selectedTheme = "theme-night";
-    let executionSignature = "Night Moon Mode";
-
-    // Mathematical Evaluation of Structural Clock Boundaries
-    if (metricHour >= 6 && metricHour < 10) {
-        selectedTheme = "theme-morning";
-        executionSignature = "Morning Sunrise";
-    } else if (metricHour >= 10 && metricHour < 16) {
-        selectedTheme = "theme-afternoon";
-        executionSignature = "Afternoon Sun";
-    } else if (metricHour >= 16 && metricHour < 20) {
-        selectedTheme = "theme-evening";
-        executionSignature = "Evening Sunset";
-    } else {
-        selectedTheme = "theme-night";
-        executionSignature = "Night Moon";
     }
 
-    // Atomic Class Mutations
-    targetedTarget.classList.remove("theme-morning", "theme-afternoon", "theme-evening", "theme-night");
-    targetedTarget.classList.add(selectedTheme);
-    
-    if (visualBadge) {
-        visualBadge.textContent = executionSignature;
-    }
-}
-
-// ==========================================================================
-// INTERACTIVE 3D PARTICLES CONSTELLATION FLUID PHYSICS ENGINE
-// ==========================================================================
-function initializeAmbientPhysicsEngine() {
-    const hostCanvas = document.getElementById("interactive-ambient-canvas");
-    if (!hostCanvas) return;
-    
-    const contextRender = hostCanvas.getContext("2d");
-    let dynamicParticleArray = [];
-    
-    // Track pointer location metrics
-    const pointerTelemetry = { x: null, y: null, targetProximityRadius: 160 };
-
-    window.addEventListener("mousemove", (event) => {
-        pointerTelemetry.x = event.clientX;
-        pointerTelemetry.y = event.clientY;
-    });
-
-    window.addEventListener("mouseleave", () => {
-        pointerTelemetry.x = null;
-        pointerTelemetry.y = null;
-    });
-
-    function normalizeCanvasDimensions() {
-        hostCanvas.width = window.innerWidth;
-        hostCanvas.height = window.innerHeight;
-    }
-    normalizeCanvasDimensions();
-    window.addEventListener("resize", normalizeCanvasDimensions);
-
-    // Particle Object Core Structure
-    class ArchitecturalParticle {
-        constructor(widthBoundary, heightBoundary) {
-            this.maxW = widthBoundary;
-            this.maxH = heightBoundary;
-            this.instantiateCoordinates();
-            this.particleMassRadius = Math.random() * 1.5 + 0.5;
-            this.driftVelocityX = (Math.random() - 0.5) * 0.4;
-            this.driftVelocityY = (Math.random() - 0.5) * 0.4;
-        }
-
-        instantiateCoordinates() {
-            this.coordinateX = Math.random() * this.maxW;
-            this.coordinateY = Math.random() * this.maxH;
-        }
-
-        recomputePosition(w, h) {
-            this.maxW = w;
-            this.maxH = h;
-            
-            // Apply frame tracking delta computations
-            this.coordinateX += this.driftVelocityX;
-            this.coordinateY += this.driftVelocityY;
-
-            // Boundary bounce computations
-            if (this.coordinateX < 0 || this.coordinateX > this.maxW) this.driftVelocityX *= -1;
-            if (this.coordinateY < 0 || this.coordinateY > this.maxH) this.driftVelocityY *= -1;
-
-            // Handle track pointer interactions
-            if (pointerTelemetry.x !== null && pointerTelemetry.y !== null) {
-                const deltaDistanceX = this.coordinateX - pointerTelemetry.x;
-                const deltaDistanceY = this.coordinateY - pointerTelemetry.y;
-                const pythagoreanDistance = Math.sqrt(deltaDistanceX * deltaDistanceX + deltaDistanceY * deltaDistanceY);
-
-                if (pythagoreanDistance < pointerTelemetry.targetProximityRadius) {
-                    const repulsionScalarForce = (pointerTelemetry.targetProximityRadius - pythagoreanDistance) / pointerTelemetry.targetProximityRadius;
-                    this.coordinateX += (deltaDistanceX / pythagoreanDistance) * repulsionScalarForce * 1.5;
-                    this.coordinateY += (deltaDistanceY / pythagoreanDistance) * repulsionScalarForce * 1.5;
-                }
-            }
-        }
-
-        renderGraphicsPass() {
-            const rootThemeStyles = getComputedStyle(document.documentElement);
-            const coreAccentHex = rootThemeStyles.getPropertyValue('--accent-primary').trim() || "#00f5ff";
-            
-            contextRender.beginPath();
-            contextRender.arc(this.coordinateX, this.coordinateY, this.particleMassRadius, 0, Math.PI * 2);
-            contextRender.fillStyle = coreAccentHex;
-            contextRender.fill();
-        }
-    }
-
-    function constructEcosystemPool() {
-        dynamicParticleArray = [];
-        // Math density mapping constraint based on horizontal resolution profiles
-        const calculatedNodeDensity = Math.floor((window.innerWidth * window.innerHeight) / 9000);
-        const processingCap = Math.min(calculatedNodeDensity, 140); 
-
-        for (let index = 0; index < processingCap; index++) {
-            dynamicParticleArray.push(new ArchitecturalParticle(hostCanvas.width, hostCanvas.height));
-        }
-    }
-    constructEcosystemPool();
-    window.addEventListener("resize", constructEcosystemPool);
-
-    function evaluateStructuralConnections() {
-        const rootThemeStyles = getComputedStyle(document.documentElement);
-        const secondaryAccentHex = rootThemeStyles.getPropertyValue('--accent-secondary').trim() || "#9d4edd";
-        
-        // Quad-tree proxy parsing array loops to draw interactive geometric meshes
-        for (let parentIndex = 0; parentIndex < dynamicParticleArray.length; parentIndex++) {
-            for (let comparisonIndex = parentIndex + 1; comparisonIndex < dynamicParticleArray.length; comparisonIndex++) {
-                const nodeA = dynamicParticleArray[parentIndex];
-                const nodeB = dynamicParticleArray[comparisonIndex];
-
-                const operationalDeltaX = nodeA.coordinateX - nodeB.coordinateX;
-                const operationalDeltaY = nodeA.coordinateY - nodeB.coordinateY;
-                const distanceVector = Math.sqrt(operationalDeltaX * operationalDeltaX + operationalDeltaY * operationalDeltaY);
-
-                if (distanceVector < 115) {
-                    const mappedAlphaRatio = (115 - distanceVector) / 115 * 0.12;
-                    contextRender.beginPath();
-                    contextRender.moveTo(nodeA.coordinateX, nodeA.coordinateY);
-                    contextRender.lineTo(nodeB.coordinateX, nodeB.coordinateY);
-                    
-                    // Convert color tracking profile natively to dynamic canvas rendering states
-                    contextRender.strokeStyle = hexToRgbaConversionString(secondaryAccentHex, mappedAlphaRatio);
-                    contextRender.lineWidth = 0.75;
-                    contextRender.stroke();
-                }
-            }
-        }
-    }
-
-    // High performance frame rendering loop
-    function continuousRenderLoop() {
-        contextRender.clearRect(0, 0, hostCanvas.width, hostCanvas.height);
-
-        dynamicParticleArray.forEach(particle => {
-            particle.recomputePosition(hostCanvas.width, hostCanvas.height);
-            particle.renderGraphicsPass();
+    // ============================================
+    // NAV LOGO CLICK - SCROLL TO TOP
+    // ============================================
+    const navLogo = document.querySelector('.nav-logo');
+    if (navLogo) {
+        navLogo.addEventListener('click', function (e) {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            closeNav();
         });
-
-        evaluateStructuralConnections();
-        requestAnimationFrame(continuousRenderLoop);
     }
-    requestAnimationFrame(continuousRenderLoop);
-}
 
-// Convert runtime variables safely into active alpha-channel canvas paths
-function hexToRgbaConversionString(hexCode, alphaValue) {
-    let sanitizedHex = hexCode.replace('#', '');
-    if (sanitizedHex.length === 3) {
-        sanitizedHex = sanitizedHex.split('').map(char => char + char).join('');
+    // ============================================
+    // SET CURRENT YEAR IN FOOTER
+    // ============================================
+    const yearEl = document.getElementById('currentYear');
+    if (yearEl) {
+        yearEl.textContent = new Date().getFullYear();
     }
-    const internalBigInt = parseInt(sanitizedHex, 16);
-    const channelR = (internalBigInt >> 16) & 255;
-    const channelG = (internalBigInt >> 8) & 255;
-    const channelB = internalBigInt & 255;
 
-    return `rgba(${channelR}, ${channelG}, ${channelB}, ${alphaValue})`;
-}
+    // ============================================
+    // INITIALIZATION
+    // ============================================
+    function init() {
+        applyTheme();
+        updateActiveNavLink();
+    }
+
+    // ============================================
+    // EVENT LISTENERS
+    // ============================================
+    window.addEventListener('scroll', function () {
+        updateActiveNavLink();
+    }, { passive: true });
+
+    // Check theme every 2 minutes (in case time boundary is crossed)
+    setInterval(function () {
+        const currentTheme = document.body.dataset.currentTheme;
+        const newTheme = getTimeTheme();
+        if (currentTheme !== newTheme) {
+            applyTheme();
+        }
+    }, 120000); // 2 minutes
+
+    // Also check at the top of each hour boundary
+    function scheduleHourCheck() {
+        const now = new Date();
+        const msToNextHour = (60 - now.getMinutes()) * 60 * 1000 - now.getSeconds() * 1000 - now.getMilliseconds();
+        setTimeout(function () {
+            applyTheme();
+            scheduleHourCheck(); // Schedule next check
+        }, msToNextHour + 1000); // 1 second past the hour
+    }
+    scheduleHourCheck();
+
+    // Handle window resize for responsive adjustments
+    let resizeTimeout;
+    window.addEventListener('resize', function () {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(function () {
+            updateActiveNavLink();
+        }, 200);
+    });
+
+    // Initialize everything
+    init();
+
+    console.log('🌅 Portfolio ready! Current theme:', getTimeTheme().toUpperCase());
+    console.log('📍 Manisha E — Java Full Stack Developer | Chennai, India');
+})();
