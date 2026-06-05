@@ -5,308 +5,745 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manisha E | Java Full Stack Developer</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
-<body class="theme-morning" id="top">
+<body>
+    <!-- Animated Sky Background -->
+    <div class="sky-container" id="skyContainer">
+        <div class="celestial-body" id="celestialBody"></div>
+        <div class="stars-container" id="starsContainer"></div>
+        <div class="clouds-container" id="cloudsContainer">
+            <div class="cloud cloud-1"></div>
+            <div class="cloud cloud-2"></div>
+            <div class="cloud cloud-3"></div>
+            <div class="cloud cloud-4"></div>
+            <div class="cloud cloud-5"></div>
+        </div>
+        <div class="birds-container" id="birdsContainer">
+            <div class="bird bird-1">
+                <div class="bird-wing bird-wing-left"></div>
+                <div class="bird-wing bird-wing-right"></div>
+            </div>
+            <div class="bird bird-2">
+                <div class="bird-wing bird-wing-left"></div>
+                <div class="bird-wing bird-wing-right"></div>
+            </div>
+            <div class="bird bird-3">
+                <div class="bird-wing bird-wing-left"></div>
+                <div class="bird-wing bird-wing-right"></div>
+            </div>
+        </div>
+        <div class="landscape">
+            <div class="mountain mountain-1"></div>
+            <div class="mountain mountain-2"></div>
+            <div class="mountain mountain-3"></div>
+            <div class="ground"></div>
+        </div>
+        <div class="particles" id="particles"></div>
+    </div>
 
-    <!-- Stars Container (for night theme) -->
-    <div class="stars-container" id="starsContainer"></div>
+    <!-- Theme Indicator -->
+    <div class="theme-indicator" id="themeIndicator">
+        <div class="theme-icon" id="themeIcon"></div>
+        <span class="theme-text" id="themeText"></span>
+        <span class="theme-time" id="themeTime"></span>
+    </div>
 
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="#hero" class="nav-logo">Manisha E</a>
-            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
-                <span class="hamburger"></span>
+            <a href="#home" class="nav-logo">
+                <span class="logo-bracket">&lt;</span>
+                <span class="logo-text">ME</span>
+                <span class="logo-bracket">/&gt;</span>
+            </a>
+            <div class="nav-menu" id="navMenu">
+                <a href="#home" class="nav-link active" data-section="home">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="#about" class="nav-link" data-section="about">
+                    <i class="fas fa-user"></i>
+                    <span>About</span>
+                </a>
+                <a href="#skills" class="nav-link" data-section="skills">
+                    <i class="fas fa-code"></i>
+                    <span>Skills</span>
+                </a>
+                <a href="#experience" class="nav-link" data-section="experience">
+                    <i class="fas fa-briefcase"></i>
+                    <span>Experience</span>
+                </a>
+                <a href="#education" class="nav-link" data-section="education">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Education</span>
+                </a>
+                <a href="#achievements" class="nav-link" data-section="achievements">
+                    <i class="fas fa-trophy"></i>
+                    <span>Achievements</span>
+                </a>
+                <a href="#contact" class="nav-link" data-section="contact">
+                    <i class="fas fa-envelope"></i>
+                    <span>Contact</span>
+                </a>
+            </div>
+            <button class="theme-toggle" id="themeToggle" title="Cycle through themes">
+                <i class="fas fa-sun"></i>
             </button>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="#about" class="nav-link">About</a></li>
-                <li><a href="#skills" class="nav-link">Skills</a></li>
-                <li><a href="#experience" class="nav-link">Experience</a></li>
-                <li><a href="#education" class="nav-link">Education</a></li>
-                <li><a href="#certifications" class="nav-link">Certifications</a></li>
-                <li><a href="#achievements" class="nav-link">Achievements</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
-            </ul>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero" id="hero">
-        <div class="hero-sky">
-            <div class="celestial-body" id="celestialBody">
-                <div class="celestial-glow"></div>
-            </div>
-            <!-- Sun rays (visible during day themes) -->
-            <div class="sun-rays" id="sunRays"></div>
-        </div>
-        <div class="hero-content">
-            <div class="hero-badge">
-                <span class="time-icon" id="timeIcon">🌅</span>
-                <span class="time-greeting" id="timeGreeting">Good Morning</span>
-            </div>
-            <h1 class="hero-name">Manisha E</h1>
-            <h2 class="hero-title">Java Full Stack Developer</h2>
-            <p class="hero-subtitle">
-                Building scalable enterprise applications with Spring Boot, Angular 14+, and AWS
-            </p>
-            <div class="hero-tags">
-                <span class="hero-tag">Remote</span>
-                <span class="hero-tag">Relocate</span>
-                <span class="hero-tag">Hybrid</span>
-                <span class="hero-tag">On-Site</span>
-            </div>
-            <div class="hero-cta">
-                <a href="#contact" class="btn btn-primary">Get In Touch</a>
-                <a href="#experience" class="btn btn-secondary">View Experience</a>
-            </div>
-            <div class="hero-location">
-                <span class="location-icon">📍</span> Chennai, India
-            </div>
-        </div>
-        <div class="scroll-indicator">
-            <span class="scroll-arrow">⌄</span>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="section about" id="about">
-        <div class="section-container">
-            <h2 class="section-title">Professional Summary</h2>
-            <div class="about-card card">
-                <div class="about-icon">💻</div>
-                <p class="about-text">
-                    Java Full Stack Developer with <strong>3+ years</strong> of enterprise experience specializing in
-                    <strong>Angular 14+, Spring Boot, Spring Batch</strong>, and <strong>AWS services</strong> including
-                    S3, SES, SQS, and API Gateway. Experienced in frontend development, backend REST APIs,
-                    PostgreSQL optimization, Agile delivery, CI/CD deployments, and production support.
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="section hero-section">
+            <div class="hero-content">
+                <div class="hero-greeting" id="heroGreeting">Good Morning</div>
+                <h1 class="hero-name">
+                    <span class="hero-firstname">Manisha</span>
+                    <span class="hero-lastname">E</span>
+                </h1>
+                <div class="hero-title-wrapper">
+                    <div class="hero-title-line"></div>
+                    <h2 class="hero-title">Java Full Stack Developer</h2>
+                    <div class="hero-title-line"></div>
+                </div>
+                <p class="hero-description">
+                    Crafting enterprise solutions with <span class="highlight">Angular</span>, 
+                    <span class="highlight">Spring Boot</span> & <span class="highlight">AWS</span> — 
+                    3+ years of building scalable applications
                 </p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" data-count="3">0</span><span class="stat-plus">+</span>
+                        <span class="stat-label">Years Exp</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-count="30">0</span><span class="stat-plus">+</span>
+                        <span class="stat-label">Features</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-count="7">0</span><span class="stat-plus">+</span>
+                        <span class="stat-label">AWS Services</span>
+                    </div>
+                </div>
+                <div class="hero-actions">
+                    <a href="#contact" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i>
+                        <span>Get In Touch</span>
+                    </a>
+                    <a href="#experience" class="btn btn-secondary">
+                        <i class="fas fa-briefcase"></i>
+                        <span>View Work</span>
+                    </a>
+                </div>
+                <div class="hero-availability">
+                    <span class="availability-dot"></span>
+                    <span>Open to: Remote | Relocate | Hybrid | On-Site</span>
+                </div>
             </div>
-            <div class="about-highlights">
-                <div class="highlight-item card">
-                    <span class="highlight-number">3+</span>
-                    <span class="highlight-label">Years Experience</span>
+            <div class="scroll-indicator">
+                <div class="mouse">
+                    <div class="mouse-wheel"></div>
                 </div>
-                <div class="highlight-item card">
-                    <span class="highlight-number">30+</span>
-                    <span class="highlight-label">Production Features</span>
-                </div>
-                <div class="highlight-item card">
-                    <span class="highlight-number">AWS</span>
-                    <span class="highlight-label">Cloud Certified</span>
-                </div>
+                <span>Scroll Down</span>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Skills Section -->
-    <section class="section skills" id="skills">
-        <div class="section-container">
-            <h2 class="section-title">Technical Skills</h2>
-            <div class="skills-grid">
-                <!-- Frontend -->
-                <div class="skill-category card">
-                    <h3 class="skill-cat-title">🎨 Frontend</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Angular 14+</span>
-                        <span class="skill-tag">TypeScript</span>
-                        <span class="skill-tag">HTML5</span>
-                        <span class="skill-tag">CSS3</span>
-                        <span class="skill-tag">SCSS</span>
-                        <span class="skill-tag">Angular Material</span>
-                        <span class="skill-tag">RxJS</span>
-                    </div>
+        <!-- About Section -->
+        <section id="about" class="section about-section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">&lt;about&gt;</span>
+                    <h2 class="section-title">About Me</h2>
+                    <div class="section-underline"></div>
                 </div>
-                <!-- Backend -->
-                <div class="skill-category card">
-                    <h3 class="skill-cat-title">⚙️ Backend</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Spring Boot</span>
-                        <span class="skill-tag">Spring Batch</span>
-                        <span class="skill-tag">Spring Data JPA</span>
-                        <span class="skill-tag">Hibernate</span>
-                        <span class="skill-tag">RESTful APIs</span>
-                    </div>
-                </div>
-                <!-- Database -->
-                <div class="skill-category card">
-                    <h3 class="skill-cat-title">🗄️ Database</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">PostgreSQL</span>
-                        <span class="skill-tag">MySQL</span>
-                        <span class="skill-tag">SQL</span>
-                        <span class="skill-tag">Query Optimization</span>
-                        <span class="skill-tag">JDBC</span>
-                    </div>
-                </div>
-                <!-- Cloud & AWS -->
-                <div class="skill-category card">
-                    <h3 class="skill-cat-title">☁️ Cloud & AWS</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">S3</span>
-                        <span class="skill-tag">SES</span>
-                        <span class="skill-tag">SQS</span>
-                        <span class="skill-tag">CloudWatch</span>
-                        <span class="skill-tag">API Gateway</span>
-                    </div>
-                </div>
-                <!-- DevOps -->
-                <div class="skill-category card">
-                    <h3 class="skill-cat-title">🔧 DevOps</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Jenkins</span>
-                        <span class="skill-tag">Bitbucket</span>
-                        <span class="skill-tag">Git</span>
-                        <span class="skill-tag">GitHub</span>
-                        <span class="skill-tag">CI/CD Pipelines</span>
-                    </div>
-                </div>
-                <!-- Tools & Methodologies -->
-                <div class="skill-category card">
-                    <h3 class="skill-cat-title">🛠️ Tools & Methods</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Swagger/OpenAPI</span>
-                        <span class="skill-tag">Postman</span>
-                        <span class="skill-tag">Agile</span>
-                        <span class="skill-tag">Scrum</span>
-                        <span class="skill-tag">Sprint Planning</span>
-                        <span class="skill-tag">Code Reviews</span>
-                        <span class="skill-tag">Production Support</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Experience Section -->
-    <section class="section experience" id="experience">
-        <div class="section-container">
-            <h2 class="section-title">Professional Experience</h2>
-            <div class="timeline">
-                <div class="timeline-line"></div>
-                <div class="timeline-item card">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <h3 class="timeline-role">Engineer – Full Stack Developer</h3>
-                            <span class="timeline-date">Oct 2024 – Present</span>
+                <div class="about-grid">
+                    <div class="about-card about-intro">
+                        <div class="about-icon">
+                            <i class="fas fa-laptop-code"></i>
                         </div>
-                        <h4 class="timeline-company">Renault Nissan Technology & Business Centre India (RNTBCI), Chennai</h4>
-                        <ul class="timeline-details">
-                            <li>Led full stack development on enterprise applications using <strong>Angular</strong> frontend and <strong>Spring Boot</strong> backend.</li>
-                            <li>Developed responsive Angular components with <strong>Angular Material</strong> and <strong>RxJS</strong> state management.</li>
-                            <li>Built RESTful APIs with <strong>JWT authentication</strong>, exception handling, and Swagger documentation.</li>
-                            <li>Integrated <strong>AWS services</strong> such as S3, SES, SQS, and API Gateway.</li>
-                            <li>Optimized <strong>PostgreSQL</strong> queries and improved application performance.</li>
-                            <li>Managed <strong>CI/CD deployments</strong> using Jenkins pipelines and automated testing.</li>
-                            <li>Implemented file upload modules for <strong>CSV/TSV/Excel</strong> processing and validation.</li>
-                            <li>Developed <strong>Spring Batch</strong> jobs for asynchronous processing and data synchronization.</li>
-                        </ul>
+                        <h3>Who I Am</h3>
+                        <p>Java Full Stack Developer with <strong>3+ years</strong> of enterprise experience specializing in Angular 14+, Spring Boot, Spring Batch, and AWS services. Passionate about building scalable, high-performance applications that drive business value.</p>
+                    </div>
+                    <div class="about-card about-what">
+                        <div class="about-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <h3>What I Do</h3>
+                        <p>I build end-to-end enterprise applications — from responsive Angular frontends to robust Spring Boot backends, integrated with AWS cloud services. I optimize databases, manage CI/CD pipelines, and ensure production reliability.</p>
+                    </div>
+                    <div class="about-card about-passion">
+                        <div class="about-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h3>My Approach</h3>
+                        <p>I follow Agile methodologies with a focus on clean code, thorough code reviews, and continuous improvement. I believe in proactive monitoring and quality-first development to reduce incidents and deliver reliable software.</p>
+                    </div>
+                    <div class="about-info-grid">
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Chennai, India</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>manisharaj2865@gmail.com</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+91-9790372865</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-globe"></i>
+                            <span>Remote | Hybrid | On-Site</span>
+                        </div>
                     </div>
                 </div>
+                <span class="section-tag section-tag-close">&lt;/about&gt;</span>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Education Section -->
-    <section class="section education" id="education">
-        <div class="section-container">
-            <h2 class="section-title">Education</h2>
-            <div class="education-card card">
-                <div class="education-icon">🎓</div>
-                <div class="education-content">
-                    <h3>Bachelor of Technology in Information Technology</h3>
-                    <h4>Dr. NGP Institute Of Technology, Coimbatore</h4>
-                    <div class="education-meta">
-                        <span class="edu-date">Jan 2019 – Jan 2023</span>
-                        <span class="edu-gpa">GPA: <strong>8.38 / 10</strong></span>
+        <!-- Skills Section -->
+        <section id="skills" class="section skills-section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">&lt;skills&gt;</span>
+                    <h2 class="section-title">Technical Skills</h2>
+                    <div class="section-underline"></div>
+                </div>
+                <div class="skills-grid">
+                    <!-- Frontend -->
+                    <div class="skill-category" data-category="frontend">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <i class="fas fa-palette"></i>
+                            </div>
+                            <h3>Frontend</h3>
+                        </div>
+                        <div class="skill-items">
+                            <div class="skill-item" data-level="92">
+                                <div class="skill-info">
+                                    <span class="skill-name">Angular 14+</span>
+                                    <span class="skill-percent">92%</span>
+                                </div>
+                                <div class="skill-bar"><div class="skill-fill"></div></div>
+                            </div>
+                            <div class="skill-item" data-level="90">
+                                <div class="skill-info">
+                                    <span class="skill-name">TypeScript</span>
+                                    <span class="skill-percent">90%</span>
+                                </div>
+                                <div class="skill-bar"><div class="skill-fill"></div></div>
+                            </div>
+                            <div class="skill-item" data-level="95">
+                                <div class="skill-info">
+                                    <span class="skill-name">HTML5 & CSS3</span>
+                                    <span class="skill-percent">95%</span>
+                                </div>
+                                <div class="skill-bar"><div class="skill-fill"></div></div>
+                            </div>
+                            <div class="skill-item" data-level="85">
+                                <div class="skill-info">
+                                    <span class="skill-name">SCSS</span>
+                                    <span class="skill-percent">85%</span>
+                                </div>
+                                <div class="skill-bar"><div class="skill-fill"></div></div>
+                            </div>
+                            <div class="skill-item" data-level="88">
+                                <div class="skill-info">
+                                    <span class="skill-name">Angular Material</span>
+                                    <span class="skill-percent">88%</span>
+                                </div>
+                                <div class="skill-bar"><div class="skill-fill"></div></div>
+                            </div>
+                            <div class="skill-item" data-level="85">
+                                <div class="skill-info">
+                                    <span class="skill-name">RxJS</span>
+                                    <span class="skill-percent">85%</span>
+                                </div>
+                                <div class="skill-bar"><div class="skill-fill"></div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Backend -->
+                    <div class="skill-category" data-category="backend">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <h3>Backend</h3>
+                        </div>
+                        <div class="skill-items">
+                            <div class="skill-item" data-level="93">
+                                <div class="skill-info">
+                                    <span class="skill-name">Spring Boot</span>
+                                    <span class="skill-percent">93%</span>
+                                </div>
+                                <div class="skill-bar"><div class="skill-fill"></div></div>
+                            </div>
+                            <div class="skill-item" data-level="85">
+                                <div class="skill-info">
+                                    <span class="skill-name">Spring Batch</span>
+                                    <span class="skill-percent">85%</span>
+                                </div>
+                                <div class="skill-bar"><div class="skill-fill"></div></div>
+                            </div>
+                            <div class="skill-item" data-level="90">
+                                <div class="skill-info">
+                                    <span class="skill-name">Spring Data JPA</span>
+                                    <span class="skill-percent">90%</span>
+                                </div>
+                                <div class="skill-bar"><div class="skill-fill"></div></div>
+                            </div>
+                            <div class="skill-item" data-level="88">
+                                <div class="skill-info">
+                                    <span class="skill-name">Hibernate</span>
+                                    <span class="skill-percent">88%</span>
+                                </div>
+                                <div class="skill-bar"><div class="skill-fill"></div></div>
+                            </div>
+                            <div class="skill-item" data-level="93">
+                                <div class="skill-info">
+                                    <span class="skill-name">RESTful APIs</span>
+                                    <span class="skill-percent">93%</span>
+                                </div>
+                                <div class="skill-bar"><div class="skill-fill"></div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Database -->
+                    <div class="skill-category" data-category="database">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <h3>Database</h3>
+                        </div>
+                        <div class="skill-items">
+                            <div class="skill-item" data-level="90">
+                                <div class="skill-info">
+                                    <span class="skill-name">PostgreSQL</span>
+                                    <span class="skill-percent">90%</span>
+                                </div>
+                                <div class="skill-bar"><div class="skill-fill"></div></div>
+                            </div>
+                            <div class="skill-item" data-level="85">
+                                <div class="skill-info">
+                                    <span class="skill-name">MySQL</span>
+                                    <span class="skill-percent">85%</span>
+                                </div>
+                                <div class="skill-bar"><div class="skill-fill"></div></div>
+                            </div>
+                            <div class="skill-item" data-level="88">
+                                <div class="skill-info">
+                                    <span class="skill-name">Query Optimization</span>
+                                    <span class="skill-percent">88%</span>
+                                </div>
+                                <div class="skill-bar"><div class="skill-fill"></div></div>
+                            </div>
+                            <div class="skill-item" data-level="82">
+                                <div class="skill-info">
+                                    <span class="skill-name">JDBC</span>
+                                    <span class="skill-percent">82%</span>
+                                </div>
+                                <div class="skill-bar"><div class="skill-fill"></div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cloud & AWS -->
+                    <div class="skill-category" data-category="cloud">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <i class="fas fa-cloud"></i>
+                            </div>
+                            <h3>Cloud & AWS</h3>
+                        </div>
+                        <div class="skill-items">
+                            <div class="skill-item" data-level="85">
+                                <div class="skill-info">
+                                    <span class="skill-name">AWS S3</span>
+                                    <span class="skill-percent">85%</span>
+                                </div>
+                                <div class="skill-bar"><div class="skill-fill"></div></div>
+                            </div>
+                            <div class="skill-item" data-level="82">
+                                <div class="skill-info">
+                                    <span class="skill-name">AWS SES</span>
+                                    <span class="skill-percent">82%</span>
+                                </div>
+                                <div class="skill-bar"><div class="skill-fill"></div></div>
+                            </div>
+                            <div class="skill-item" data-level="80">
+                                <div class="skill-info">
+                                    <span class="skill-name">AWS SQS</span>
+                                    <span class="skill-percent">80%</span>
+                                </div>
+                                <div class="skill-bar"><div class="skill-fill"></div></div>
+                            </div>
+                            <div class="skill-item" data-level="78">
+                                <div class="skill-info">
+                                    <span class="skill-name">CloudWatch</span>
+                                    <span class="skill-percent">78%</span>
+                                </div>
+                                <div class="skill-bar"><div class="skill-fill"></div></div>
+                            </div>
+                            <div class="skill-item" data-level="83">
+                                <div class="skill-info">
+                                    <span class="skill-name">API Gateway</span>
+                                    <span class="skill-percent">83%</span>
+                                </div>
+                                <div class="skill-bar"><div class="skill-fill"></div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DevOps -->
+                    <div class="skill-category" data-category="devops">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <i class="fas fa-infinity"></i>
+                            </div>
+                            <h3>DevOps & Tools</h3>
+                        </div>
+                        <div class="skill-items">
+                            <div class="skill-item" data-level="85">
+                                <div class="skill-info">
+                                    <span class="skill-name">Jenkins</span>
+                                    <span class="skill-percent">85%</span>
+                                </div>
+                                <div class="skill-bar"><div class="skill-fill"></div></div>
+                            </div>
+                            <div class="skill-item" data-level="90">
+                                <div class="skill-info">
+                                    <span class="skill-name">Git & GitHub</span>
+                                    <span class="skill-percent">90%</span>
+                                </div>
+                                <div class="skill-bar"><div class="skill-fill"></div></div>
+                            </div>
+                            <div class="skill-item" data-level="85">
+                                <div class="skill-info">
+                                    <span class="skill-name">Bitbucket</span>
+                                    <span class="skill-percent">85%</span>
+                                </div>
+                                <div class="skill-bar"><div class="skill-fill"></div></div>
+                            </div>
+                            <div class="skill-item" data-level="88">
+                                <div class="skill-info">
+                                    <span class="skill-name">Swagger/OpenAPI</span>
+                                    <span class="skill-percent">88%</span>
+                                </div>
+                                <div class="skill-bar"><div class="skill-fill"></div></div>
+                            </div>
+                            <div class="skill-item" data-level="90">
+                                <div class="skill-info">
+                                    <span class="skill-name">Postman</span>
+                                    <span class="skill-percent">90%</span>
+                                </div>
+                                <div class="skill-bar"><div class="skill-fill"></div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Methodologies -->
+                    <div class="skill-category" data-category="methods">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <i class="fas fa-project-diagram"></i>
+                            </div>
+                            <h3>Methodologies</h3>
+                        </div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Agile</span>
+                            <span class="skill-tag">Scrum</span>
+                            <span class="skill-tag">Sprint Planning</span>
+                            <span class="skill-tag">Code Reviews</span>
+                            <span class="skill-tag">Production Support</span>
+                            <span class="skill-tag">CI/CD Pipelines</span>
+                        </div>
                     </div>
                 </div>
+                <span class="section-tag section-tag-close">&lt;/skills&gt;</span>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Certifications Section -->
-    <section class="section certifications" id="certifications">
-        <div class="section-container">
-            <h2 class="section-title">Certifications</h2>
-            <div class="certs-grid">
-                <div class="cert-card card">
-                    <span class="cert-icon">☁️</span>
-                    <h4>AWS Certified Cloud Practitioner</h4>
-                    <span class="cert-status in-progress">In Progress</span>
+        <!-- Experience Section -->
+        <section id="experience" class="section experience-section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">&lt;experience&gt;</span>
+                    <h2 class="section-title">Professional Experience</h2>
+                    <div class="section-underline"></div>
                 </div>
-                <div class="cert-card card">
-                    <span class="cert-icon">🌐</span>
-                    <h4>Certificate Course in Web Application Development</h4>
-                    <span class="cert-issuer">Internshala</span>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-pulse"></div>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <div class="timeline-badge">Current</div>
+                                <h3>Engineer – Full Stack Developer</h3>
+                                <h4><i class="fas fa-building"></i> Renault Nissan Technology & Business Centre India (RNTBCI)</h4>
+                                <div class="timeline-meta">
+                                    <span><i class="fas fa-map-marker-alt"></i> Chennai</span>
+                                    <span><i class="fas fa-calendar"></i> Oct 2024 – Present</span>
+                                </div>
+                            </div>
+                            <div class="timeline-body">
+                                <ul class="timeline-achievements">
+                                    <li>
+                                        <i class="fas fa-chevron-right"></i>
+                                        <span>Led full stack development on enterprise applications using <strong>Angular</strong> frontend and <strong>Spring Boot</strong> backend.</span>
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-chevron-right"></i>
+                                        <span>Developed responsive Angular components with <strong>Angular Material</strong> and <strong>RxJS</strong> state management.</span>
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-chevron-right"></i>
+                                        <span>Built RESTful APIs with <strong>JWT authentication</strong>, exception handling, and Swagger documentation.</span>
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-chevron-right"></i>
+                                        <span>Integrated AWS services: <strong>S3, SES, SQS</strong>, and <strong>API Gateway</strong>.</span>
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-chevron-right"></i>
+                                        <span>Optimized <strong>PostgreSQL</strong> queries and improved application performance.</span>
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-chevron-right"></i>
+                                        <span>Managed <strong>CI/CD deployments</strong> using Jenkins pipelines and automated testing.</span>
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-chevron-right"></i>
+                                        <span>Implemented file upload modules for <strong>CSV/TSV/Excel</strong> processing and validation.</span>
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-chevron-right"></i>
+                                        <span>Developed <strong>Spring Batch</strong> jobs for asynchronous processing and data synchronization.</span>
+                                    </li>
+                                </ul>
+                                <div class="timeline-tech">
+                                    <span>Angular 14+</span>
+                                    <span>Spring Boot</span>
+                                    <span>PostgreSQL</span>
+                                    <span>AWS</span>
+                                    <span>Jenkins</span>
+                                    <span>Spring Batch</span>
+                                    <span>RxJS</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="cert-card card">
-                    <span class="cert-icon">📄</span>
-                    <h4>Frontend Development – HTML</h4>
-                    <span class="cert-issuer">Great Learning</span>
-                </div>
+                <span class="section-tag section-tag-close">&lt;/experience&gt;</span>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Achievements Section -->
-    <section class="section achievements" id="achievements">
-        <div class="section-container">
-            <h2 class="section-title">Key Achievements</h2>
-            <div class="achievements-grid">
-                <div class="achievement-card card">
-                    <span class="achievement-icon">🚀</span>
-                    <p>Promoted to <strong>Engineer role within 12 months</strong> for outstanding technical performance.</p>
+        <!-- Education Section -->
+        <section id="education" class="section education-section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">&lt;education&gt;</span>
+                    <h2 class="section-title">Education & Certifications</h2>
+                    <div class="section-underline"></div>
                 </div>
-                <div class="achievement-card card">
-                    <span class="achievement-icon">✨</span>
-                    <p>Delivered <strong>30+ production features</strong> for enterprise automotive workflows.</p>
+                <div class="education-grid">
+                    <div class="education-card">
+                        <div class="education-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="education-content">
+                            <h3>Bachelor of Technology</h3>
+                            <h4>Information Technology</h4>
+                            <p class="education-school">
+                                <i class="fas fa-university"></i>
+                                Dr. NGP Institute Of Technology, Coimbatore
+                            </p>
+                            <div class="education-meta">
+                                <span><i class="fas fa-calendar"></i> 2019 – 2023</span>
+                                <span class="education-gpa"><i class="fas fa-star"></i> GPA: 8.38 / 10</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="achievement-card card">
-                    <span class="achievement-icon">🛡️</span>
-                    <p>Reduced critical incidents through <strong>monitoring and quality improvements</strong>.</p>
+
+                <h3 class="cert-title">
+                    <i class="fas fa-certificate"></i>
+                    Certifications
+                </h3>
+                <div class="certifications-grid">
+                    <div class="cert-card">
+                        <div class="cert-icon aws">
+                            <i class="fab fa-aws"></i>
+                        </div>
+                        <div class="cert-content">
+                            <h4>AWS Certified Cloud Practitioner</h4>
+                            <span class="cert-status in-progress">
+                                <i class="fas fa-spinner"></i> In Progress
+                            </span>
+                        </div>
+                    </div>
+                    <div class="cert-card">
+                        <div class="cert-icon web">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="cert-content">
+                            <h4>Web Application Development</h4>
+                            <span class="cert-status completed">
+                                <i class="fas fa-check-circle"></i> Internshala
+                            </span>
+                        </div>
+                    </div>
+                    <div class="cert-card">
+                        <div class="cert-icon html">
+                            <i class="fab fa-html5"></i>
+                        </div>
+                        <div class="cert-content">
+                            <h4>Frontend Development – HTML</h4>
+                            <span class="cert-status completed">
+                                <i class="fas fa-check-circle"></i> Great Learning
+                            </span>
+                        </div>
+                    </div>
                 </div>
+                <span class="section-tag section-tag-close">&lt;/education&gt;</span>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Contact Section -->
-    <section class="section contact" id="contact">
-        <div class="section-container">
-            <h2 class="section-title">Get In Touch</h2>
-            <div class="contact-card card">
+        <!-- Achievements Section -->
+        <section id="achievements" class="section achievements-section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">&lt;achievements&gt;</span>
+                    <h2 class="section-title">Key Achievements</h2>
+                    <div class="section-underline"></div>
+                </div>
+                <div class="achievements-grid">
+                    <div class="achievement-card">
+                        <div class="achievement-icon">
+                            <i class="fas fa-arrow-up"></i>
+                        </div>
+                        <div class="achievement-number">12</div>
+                        <div class="achievement-unit">Months</div>
+                        <h3>Fast Track Promotion</h3>
+                        <p>Promoted to Engineer role within 12 months for outstanding technical performance.</p>
+                    </div>
+                    <div class="achievement-card">
+                        <div class="achievement-icon">
+                            <i class="fas fa-code-branch"></i>
+                        </div>
+                        <div class="achievement-number">30+</div>
+                        <div class="achievement-unit">Features</div>
+                        <h3>Production Deliveries</h3>
+                        <p>Delivered 30+ production features for enterprise automotive workflows.</p>
+                    </div>
+                    <div class="achievement-card">
+                        <div class="achievement-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="achievement-number">↓</div>
+                        <div class="achievement-unit">Incidents</div>
+                        <h3>Quality Champion</h3>
+                        <p>Reduced critical incidents through monitoring and quality improvements.</p>
+                    </div>
+                </div>
+                <span class="section-tag section-tag-close">&lt;/achievements&gt;</span>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section contact-section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">&lt;contact&gt;</span>
+                    <h2 class="section-title">Get In Touch</h2>
+                    <div class="section-underline"></div>
+                </div>
+                <p class="contact-description">
+                    I'm currently open to new opportunities. Whether you have a question or just want to say hi, feel free to reach out!
+                </p>
                 <div class="contact-grid">
-                    <a href="mailto:manisharaj2865@gmail.com" class="contact-item">
-                        <span class="contact-icon">✉️</span>
-                        <span class="contact-label">Email</span>
-                        <span class="contact-value">manisharaj2865@gmail.com</span>
+                    <a href="mailto:manisharaj2865@gmail.com" class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h3>Email</h3>
+                        <p>manisharaj2865@gmail.com</p>
                     </a>
-                    <a href="tel:+919790372865" class="contact-item">
-                        <span class="contact-icon">📞</span>
-                        <span class="contact-label">Phone</span>
-                        <span class="contact-value">+91-9790372865</span>
+                    <a href="tel:+919790372865" class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <h3>Phone</h3>
+                        <p>+91-9790372865</p>
                     </a>
-                    <div class="contact-item">
-                        <span class="contact-icon">📍</span>
-                        <span class="contact-label">Location</span>
-                        <span class="contact-value">Chennai, India</span>
-                    </div>
-                    <div class="contact-item">
-                        <span class="contact-icon">🌍</span>
-                        <span class="contact-label">Open To</span>
-                        <span class="contact-value">Remote · Relocate · Hybrid · On-Site</span>
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h3>Location</h3>
+                        <p>Chennai, India</p>
                     </div>
                 </div>
+                <div class="contact-form-container">
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Your Name</label>
+                                <input type="text" id="name" placeholder="John Doe" required>
+                                <div class="form-line"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Your Email</label>
+                                <input type="email" id="email" placeholder="john@example.com" required>
+                                <div class="form-line"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" placeholder="How can I help you?" required>
+                            <div class="form-line"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" rows="5" placeholder="Your message here..." required></textarea>
+                            <div class="form-line"></div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-submit">
+                            <i class="fas fa-paper-plane"></i>
+                            <span>Send Message</span>
+                        </button>
+                    </form>
+                </div>
+                <span class="section-tag section-tag-close">&lt;/contact&gt;</span>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="footer-container">
-            <p class="footer-text">© <span id="currentYear">2026</span> Manisha E — Java Full Stack Developer</p>
-            <p class="footer-tagline">Built with 💙 from Chennai, India</p>
-            <a href="#top" class="back-to-top" aria-label="Back to top">↑</a>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo-bracket">&lt;</span>
+                    <span class="logo-text">Manisha E</span>
+                    <span class="logo-bracket">/&gt;</span>
+                </div>
+                <p class="footer-text">Designed & Built with <span class="heart">❤</span> by Manisha E</p>
+                <p class="footer-copyright">© 2025 All rights reserved.</p>
+            </div>
         </div>
     </footer>
 
