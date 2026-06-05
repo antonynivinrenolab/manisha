@@ -1,13 +1,13 @@
-// Mobile Menu
+// Mobile Navigation
 
-const hamburger = document.getElementById("hamburger");
+const menuBtn = document.getElementById("menuBtn");
 const navLinks = document.getElementById("navLinks");
 
-hamburger.addEventListener("click", () => {
+menuBtn.addEventListener("click", () => {
     navLinks.classList.toggle("active");
 });
 
-// Close menu after click
+// Close mobile menu
 
 document.querySelectorAll(".nav-links a").forEach(link => {
     link.addEventListener("click", () => {
@@ -15,15 +15,30 @@ document.querySelectorAll(".nav-links a").forEach(link => {
     });
 });
 
-// Dynamic Greeting
+// Scroll Reveal Animation
 
-const greeting = document.getElementById("greeting");
-const hour = new Date().getHours();
+const observer = new IntersectionObserver(
+(entries) => {
 
-if (hour < 12) {
-    greeting.textContent = "☀️ Good Morning!";
-} else if (hour < 18) {
-    greeting.textContent = "🌤️ Good Afternoon!";
-} else {
-    greeting.textContent = "🌙 Good Evening!";
-}
+    entries.forEach(entry => {
+
+        if(entry.isIntersecting){
+            entry.target.classList.add("active");
+        }
+
+    });
+
+},
+{
+    threshold:0.15
+});
+
+document.querySelectorAll(".reveal").forEach(section => {
+    observer.observe(section);
+});
+
+// Hero visible on first load
+
+window.addEventListener("load", () => {
+    document.querySelector("#hero").classList.add("active");
+});
