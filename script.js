@@ -89,7 +89,7 @@
             starsContainer.style.opacity = '1';
         } else {
             starsContainer.style.opacity = '0';
-            // Clear after transition
+            // Clear after transition ends
             setTimeout(() => {
                 if (document.body.dataset.currentTheme !== 'night') {
                     clearStars();
@@ -181,7 +181,6 @@
         '.card, .section-title, .about-text, .timeline-item, .achievement-card, .cert-card, .contact-item, .highlight-item, .education-card'
     );
 
-    // Add fade-in class to elements
     fadeElements.forEach(function (el) {
         el.classList.add('fade-in');
     });
@@ -196,8 +195,6 @@
         entries.forEach(function (entry) {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
-                // Optional: unobserve after becoming visible
-                // observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
@@ -260,7 +257,7 @@
         if (currentTheme !== newTheme) {
             applyTheme();
         }
-    }, 120000); // 2 minutes
+    }, 120000);
 
     // Also check at the top of each hour boundary
     function scheduleHourCheck() {
@@ -268,8 +265,8 @@
         const msToNextHour = (60 - now.getMinutes()) * 60 * 1000 - now.getSeconds() * 1000 - now.getMilliseconds();
         setTimeout(function () {
             applyTheme();
-            scheduleHourCheck(); // Schedule next check
-        }, msToNextHour + 1000); // 1 second past the hour
+            scheduleHourCheck();
+        }, msToNextHour + 1000);
     }
     scheduleHourCheck();
 
