@@ -1,0 +1,139 @@
+@import "tailwindcss";
+
+/* ========================================
+   BASE RESET
+   ======================================== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: #0A0A0A;
+  color: #FFFFFF;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: #D7FF43;
+  color: #0A0A0A;
+}
+
+/* ========================================
+   SCROLLBAR
+   ======================================== */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #0A0A0A; }
+::-webkit-scrollbar-thumb { background: #D7FF43; border-radius: 10px; }
+
+/* ========================================
+   CURSOR (desktop only)
+   ======================================== */
+@media (hover: hover) and (pointer: fine) {
+  body { cursor: none; }
+}
+
+.c-cursor {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #D7FF43;
+  border-radius: 50%;
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 100000;
+  mix-blend-mode: difference;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s, background 0.2s;
+}
+
+.c-follower {
+  width: 36px;
+  height: 36px;
+  background: rgba(215, 255, 67, 0.06);
+  border-radius: 50%;
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+}
+
+@media (hover: none), (pointer: coarse) {
+  .c-cursor, .c-follower { display: none !important; }
+}
+
+/* ========================================
+   REUSABLE
+   ======================================== */
+.glass-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.glass-nav {
+  background: rgba(10,10,10,0.88);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+.accent-gradient {
+  background: linear-gradient(135deg, #D7FF43, #FF7A00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.grid-dots {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* ========================================
+   FONT HELPERS
+   ======================================== */
+.ff-bebas { font-family: 'Bebas Neue', Impact, sans-serif; }
+.ff-inter { font-family: 'Inter', system-ui, sans-serif; }
+
+/* ========================================
+   KEYFRAMES
+   ======================================== */
+@keyframes k-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50%      { opacity: 0.6; transform: scale(1.04); }
+}
+@keyframes k-bounce {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(8px); }
+}
+@keyframes k-marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes k-spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes k-spin-r {
+  to { transform: rotate(-360deg); }
+}
+@keyframes k-neon {
+  0%, 100% { opacity: 0.2; }
+  50%      { opacity: 0.6; }
+}
